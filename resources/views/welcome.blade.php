@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content=" {{csrf_token() }}">
         <script>window.Laravel = { csrfToken: '{{ csrf_token() }}'}</script>
-        {{-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.js"></script> --}}
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.js"></script>
         <title>MediumValley</title>
         
         <!-- Styles -->
@@ -22,6 +22,6 @@
         </div>
 
         <script src="{{ asset('js/app.js') }}"></script>
-        {{-- <script>var editor = new Jodit('#editor');</script> --}}
+        <script>var editor = new Jodit('#editor');</script>
     </body>
 </html>

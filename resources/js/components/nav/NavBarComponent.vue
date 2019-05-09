@@ -2,7 +2,9 @@
     <nav class="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg">
                 
         <div class="flex items-center flex-no-shrink text-grey-darkest mr-6">
-            <span class="font-semibold text-xl tracking-tight">MediumValley</span>
+            <router-link to="/articles" class="no-underline text-blue">
+                <span class="font-semibold text-xl tracking-tight">MediumValley</span>
+            </router-link>
         </div>
         
         <div class="block lg:hidden">
