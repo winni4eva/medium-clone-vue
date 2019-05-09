@@ -18,9 +18,9 @@
             {{-- <div>
                 <articles></articles>
             </div> --}}
-            <nav class="flex items-center justify-between flex-wrap bg-teal p-6">
+            <nav class="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg">
                 
-                <div class="flex items-center flex-no-shrink text-white mr-6">
+                <div class="flex items-center flex-no-shrink text-grey-darkest mr-6">
                     <span class="font-semibold text-xl tracking-tight">Medium</span>
                 </div>
                 
@@ -34,13 +34,13 @@
                     <div class="text-sm lg:flex-grow">
                     </div>
                     <div>
-                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                             Signin
                         </a>
-                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                             Signup
                         </a>
-                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white">
+                        <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
                             Add Blog
                         </a>
                         {{-- <a href="#" class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">Download</a> --}}
