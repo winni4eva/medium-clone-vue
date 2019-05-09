@@ -1,42 +1,40 @@
 <template>
-    <form class="w-full max-w-xs">
-        
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-            <label class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                Full Name
-            </label>
+    <div class="flex justify-end w-full max-w-md my-6 clearfix">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="username">
+                    Email
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username">
             </div>
-            <div class="md:w-2/3">
-            <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple" id="inline-full-name" type="text" value="Jane Doe">
+            
+            <div class="mb-6">
+                <label class="block text-grey-darker text-sm font-bold mb-2" for="password">
+                    Password
+                </label>
+                <input class="shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************">
+                <p class="text-red text-xs italic">Please choose a password.</p>
             </div>
-        </div>
-
-        <div class="md:flex md:items-center mb-6">
-            <div class="md:w-1/3">
-            <label class="block text-grey font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-username">
-                Password
-            </label>
+            
+            <div class="flex items-center justify-between">
+                <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    Sign Up
+                </button>
             </div>
-            <div class="md:w-2/3">
-            <input class="bg-grey-lighter appearance-none border-2 border-grey-lighter rounded w-full py-2 px-4 text-grey-darker leading-tight focus:outline-none focus:bg-white focus:border-purple" id="inline-username" type="password" placeholder="******************">
-            </div>
-        </div>
-
-        <div class="md:flex md:items-center">
-            <div class="md:w-1/3"></div>
-            <div class="md:w-2/3">
-            <button class="shadow bg-purple hover:bg-purple-light focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                Sign Up
-            </button>
-            </div>
-        </div>
-        
-    </form>
+        </form>
+    </div>
 </template>
 
 <script>
     export default {
+        data(){
+            return {
+                register: {
+                    email: "",
+                    password: ""
+                }
+            }
+        }
         // mounted() {
         //     console.log('Component mounted.')
         // }

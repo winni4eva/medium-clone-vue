@@ -15,7 +15,10 @@ let routes=[
 {
     path:'/create-article',
     name: 'createArticle',
-	component:require('./components/articles/CreateArticlesComponent').default
+    component:require('./components/articles/CreateArticlesComponent').default,
+    meta: {
+        requiresAuth: true
+    }
 },
 {
     path:'/login',
@@ -25,7 +28,7 @@ let routes=[
 {
     path:'/register',
     name: 'register',
-	component:require('./components/auth/LoginComponent').default
+	component:require('./components/auth/RegisterComponent.vue').default
 }
 ];
 

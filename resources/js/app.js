@@ -37,4 +37,4 @@ Vue.component('navbar', require('./components/nav/NavBarComponent.vue').default)
 const app = new Vue({
     el: '#app',
     router
-}).$mount('#app');
+});
