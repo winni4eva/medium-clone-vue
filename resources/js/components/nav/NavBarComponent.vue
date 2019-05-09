@@ -2,7 +2,7 @@
     <nav class="flex items-center justify-between flex-wrap bg-grey-lighter p-6 shadow-lg">
                 
         <div class="flex items-center flex-no-shrink text-grey-darkest mr-6">
-            <span class="font-semibold text-xl tracking-tight">Medium</span>
+            <span class="font-semibold text-xl tracking-tight">MediumValley</span>
         </div>
         
         <div class="block lg:hidden">
@@ -15,15 +15,21 @@
             <div class="text-sm lg:flex-grow">
             </div>
             <div>
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
-                    Signin
+                <router-link to="/login">
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
+                        Signin
+                    </a>
+                </router-link>
+                <router-link to="/register">
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
+                        Signup
+                    </a>
+                </router-link>
+                <router-link to="/create-article">
+                <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                    Add Article
                 </a>
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
-                    Signup
-                </a>
-                <a href="#responsive-header" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
-                    Add Blog
-                </a>
+                </router-link>
             </div>
         </div>
     </nav>
