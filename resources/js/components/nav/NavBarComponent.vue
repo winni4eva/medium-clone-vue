@@ -22,11 +22,11 @@
                         Signin
                     </a>
                 </router-link>
-                <router-link to="/register">
+                <!-- <router-link to="/register">
                     <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                         Signup
                     </a>
-                </router-link>
+                </router-link> -->
                 <router-link to="/create-article">
                 <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
                     Add Article

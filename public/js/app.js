@@ -1818,6 +1818,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
+/* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -1845,9 +1847,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({// mounted() {
-  //     console.log('Component mounted.')
-  // }
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      login: {
+        email: "",
+        password: ""
+      },
+      error: ""
+    };
+  },
+  methods: {
+    loginUser: function loginUser() {
+      var _this = this;
+
+      axios.post('/api/login', this.login).then(function (res) {
+        var token = res.data.token;
+        localStorage.setItem("mvToken", token);
+        _this.error = "";
+      })["catch"](function (err) {
+        _this.error = err.response.data.error;
+        Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
+          _this.error = "";
+        }, 3000);
+      });
+    }
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  }
 });
 
 /***/ }),
@@ -37367,80 +37408,124 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "flex justify-end w-full max-w-md my-6 clearfix" },
-      [
-        _c(
-          "form",
-          { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
-          [
-            _c("div", { staticClass: "mb-4" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "block text-grey-darker text-sm font-bold mb-2",
-                  attrs: { for: "username" }
-                },
-                [_vm._v("\n                Email\n            ")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                staticClass:
-                  "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
-                attrs: { id: "username", type: "text", placeholder: "Username" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "mb-6" }, [
-              _c(
-                "label",
-                {
-                  staticClass: "block text-grey-darker text-sm font-bold mb-2",
-                  attrs: { for: "password" }
-                },
-                [_vm._v("\n                Password\n            ")]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                staticClass:
-                  "shadow appearance-none border border-red rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
-                attrs: {
-                  id: "password",
-                  type: "password",
-                  placeholder: "******************"
-                }
-              }),
-              _vm._v(" "),
-              _c("p", { staticClass: "text-red text-xs italic" }, [
-                _vm._v("Please choose a password.")
+  return _c(
+    "div",
+    { staticClass: "flex justify-end w-full max-w-md my-6 clearfix" },
+    [
+      this.error
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded absolute",
+              attrs: { role: "alert" }
+            },
+            [
+              _c("span", { staticClass: "block sm:inline" }, [
+                _vm._v(_vm._s(this.error))
               ])
-            ]),
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "form",
+        { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
+        [
+          _c("div", { staticClass: "mb-4" }, [
+            _c(
+              "label",
+              {
+                staticClass: "block text-grey-darker text-sm font-bold mb-2",
+                attrs: { for: "email" }
+              },
+              [_vm._v("\n                Email\n            ")]
+            ),
             _vm._v(" "),
-            _c("div", { staticClass: "flex items-center justify-between" }, [
-              _c(
-                "button",
+            _c("input", {
+              directives: [
                 {
-                  staticClass:
-                    "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
-                  attrs: { type: "button" }
-                },
-                [_vm._v("\n                Sign In\n            ")]
-              )
-            ])
-          ]
-        )
-      ]
-    )
-  }
-]
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.login.email,
+                  expression: "login.email"
+                }
+              ],
+              staticClass:
+                "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
+              attrs: {
+                id: "email",
+                type: "email",
+                placeholder: "chloe@ggmail.com"
+              },
+              domProps: { value: _vm.login.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.login, "email", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-6" }, [
+            _c(
+              "label",
+              {
+                staticClass: "block text-grey-darker text-sm font-bold mb-2",
+                attrs: { for: "password" }
+              },
+              [_vm._v("\n                Password\n            ")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.login.password,
+                  expression: "login.password"
+                }
+              ],
+              staticClass:
+                "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
+              attrs: { id: "password", type: "password", placeholder: "***" },
+              domProps: { value: _vm.login.password },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.login, "password", $event.target.value)
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex items-center justify-between" }, [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.loginUser()
+                  }
+                }
+              },
+              [_vm._v("\n                Sign In\n            ")]
+            )
+          ])
+        ]
+      )
+    ]
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -37669,17 +37754,6 @@ var render = function() {
                       "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4"
                   },
                   [_vm._v("\n                    Signin\n                ")]
-                )
-              ]),
-              _vm._v(" "),
-              _c("router-link", { attrs: { to: "/register" } }, [
-                _c(
-                  "a",
-                  {
-                    staticClass:
-                      "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4"
-                  },
-                  [_vm._v("\n                    Signup\n                ")]
                 )
               ]),
               _vm._v(" "),
@@ -52992,10 +53066,28 @@ var routes = [{
   name: 'register',
   component: __webpack_require__(/*! ./components/auth/RegisterComponent.vue */ "./resources/js/components/auth/RegisterComponent.vue")["default"]
 }];
-/* harmony default export */ __webpack_exports__["default"] = (new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  routes: routes // linkActiveClass: 'active'
-
-}));
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  routes: routes
+});
+router.beforeEach(function (to, from, next) {
+  if (to.matched.some(function (record) {
+    return record.meta.requiresAuth;
+  })) {
+    if (localStorage.getItem('mvToken') == null) {
+      next({
+        path: '/articles',
+        params: {
+          nextUrl: to.fullPath
+        }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),
 

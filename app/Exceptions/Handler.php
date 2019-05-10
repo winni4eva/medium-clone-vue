@@ -46,6 +46,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof \App\Exceptions\InvalidCredentialsException) {
+            return response()->json(
+                [
+                    "error" => $exception->getMessage()
+                ], 
+                $exception->getCode()
+            );
+        }
         return parent::render($request, $exception);
     }
 }

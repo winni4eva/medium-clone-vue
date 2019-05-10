@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Exceptions\InvalidCredentialsException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use JWTAuth;
 
 class LoginController extends Controller
 {
@@ -35,6 +39,36 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $credentials = $request->only('email', 'password');
+
+        if (!$token = JWTAuth::attempt($credentials)) {
+            throw new InvalidCredentialsException(401);
+        }
+
+        return response()->json(compact('token'));
+    }
+
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make(
+            $data, 
+            [
+                'email' => ['required', 'string', 'email'],
+                'password' => ['required', 'string', 'min:3'],
+            ]
+        );
     }
 
 }
