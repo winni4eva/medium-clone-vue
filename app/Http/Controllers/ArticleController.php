@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\Interfaces\ArticleRepositoryInterface;
 
 class ArticleController extends Controller
 {
+
+    protected $articleRepo;
+
+
+    public function __construct(ArticleRepositoryInterface $articleRepo) 
+    {
+        $this->articleRepo = $articleRepo;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +22,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return response()->json(['articles'=>[]]);
+        $articles = $this->articleRepo->get();
+
+        return response()->json(compact('articles'));
     }
 
     /**

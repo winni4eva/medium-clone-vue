@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Image;
+use App\User;
 
 class Article extends Model
 {
@@ -22,4 +24,14 @@ class Article extends Model
     protected $casts = [
         'tags' => 'array',
     ];
+
+    public function images() 
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
