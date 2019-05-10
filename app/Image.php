@@ -18,7 +18,7 @@ class Image extends Model
      *
      * @var array
      */
-    public function getImagePathAttribute($imageUrl) 
+    public function getImagePathAttribute(string $imageUrl): string 
     {
         $urlSegemnts = explode(DIRECTORY_SEPARATOR, $imageUrl);
 

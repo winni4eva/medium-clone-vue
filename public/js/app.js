@@ -37375,8 +37375,127 @@ var staticRenderFns = [
     return _c("div", { staticClass: "flex mb-4 flex-wrap my-6" }, [
       _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
       _vm._v(" "),
-      _c("div", { staticClass: "w-2/4 bg-grey h-full" }, [
-        _c("h2", [_vm._v("Create Article")])
+      _c("div", { staticClass: "w-2/4 h-full" }, [
+        _c("form", { staticClass: "w-full max-w-md mt-6" }, [
+          _c("div", { staticClass: "flex flex-wrap -mx-3 mb-6" }, [
+            _c("div", { staticClass: "w-full px-3" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                  attrs: { for: "title" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Images\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey",
+                attrs: { id: "title", type: "file" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full px-3" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                  attrs: { for: "title" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Title\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey",
+                attrs: { id: "title", type: "text" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full px-3" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                  attrs: { for: "description" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Article\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("textarea", {
+                staticClass:
+                  "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey h-64",
+                attrs: { id: "description" }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "flex items-center border-b border-b-2 border-teal py-2 w-full px-3"
+              },
+              [
+                _c("input", {
+                  staticClass:
+                    "appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none",
+                  attrs: {
+                    type: "text",
+                    placeholder: "sports",
+                    "aria-label": "tag"
+                  }
+                }),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "flex-no-shrink border-transparent border-4 text-teal hover:text-teal-darker text-sm py-1 px-2 rounded",
+                    attrs: { type: "button" }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Add Tag\n                    "
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "bg-transparent hover:bg-blue text-blue-dark font-semibold hover:text-white py-2 px-4 border border-blue hover:border-transparent rounded"
+              },
+              [_vm._v("\n                    Button\n                ")]
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass:
+                "bg-blue hover:bg-blue-light text-white font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded"
+            },
+            [_vm._v("\n                Save\n            ")]
+          )
+        ])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "w-1/4 bg-grey-light h-full" })
