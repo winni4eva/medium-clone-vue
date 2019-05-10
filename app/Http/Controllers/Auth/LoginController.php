@@ -31,23 +31,31 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected $jwt;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(JWTAuth $jwt)
     {
+        $this->jwt = $jwt;
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Login User
+     *
+     * @return mixed
+     */
     public function login(Request $request)
     {
         $this->validator($request->all())->validate();
 
         $credentials = $request->only('email', 'password');
 
-        if (!$token = JWTAuth::attempt($credentials)) {
+        if (!$token = $this->jwt->attempt($credentials)) {
             throw new InvalidCredentialsException(401);
         }
 
@@ -69,6 +77,22 @@ class LoginController extends Controller
                 'password' => ['required', 'string', 'min:3'],
             ]
         );
+    }
+
+    /**
+     * Logout User
+     *
+     * @return mixed
+     */
+    public function logout()
+    {
+        if ($this->jwt->parseToken()->invalidate()) {
+            return response()->json(
+                ['success' => 'User logged out successfully...']
+            );
+        }
+        
+        return response()->json(['error' => 'Logout failed...'], 403);
     }
 
 }

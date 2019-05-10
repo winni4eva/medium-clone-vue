@@ -23,10 +23,13 @@
                     </a>
                 </router-link>
                 <router-link to="/create-article" v-if="this.token">
-                <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
-                    Add Article
-                </a>
+                    <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                        Add Article
+                    </a>
                 </router-link>
+                <a v-if="this.token" @click="logout()" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                    Logout
+                </a>
                 <!-- <router-link to="/register">
                     <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                         Signup
@@ -41,13 +44,26 @@
     export default {
         data(){
             return {
-                token: ""
+                token: "",
+                error: ""
             }
         },
 
         methods: {
             checkUserAuthStatus() {
                 this.token = localStorage.getItem('mvToken');
+            },
+            logout() {
+                axios.get('api/logout')
+                    .then((response) => {
+                        localStorage.setItem("mvToken", undefined);
+                    })
+                    .catch(err => {
+                        this.error = err.response.data.error;
+                        setTimeout(() => {
+                            this.error = "";
+                        }, 3000);
+                    });
             }
         },
         mounted() {

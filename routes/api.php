@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get(
 Route::group(
     ['namespace' => 'Auth'], 
     function () {
+        Route::get('logout', 'LoginController@logout');
         Route::post('register', 'RegisterController@register');
         Route::post('login', 'LoginController@login');
     }
@@ -30,6 +31,6 @@ Route::group(
 Route::group(
     ['middleware' => 'auth:api'],
     function () {
-        //Route::resource('articles', )
+        Route::resource('articles', 'ArticlesController', ['except' => ['index']]);
     }
 );

@@ -2014,15 +2014,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: ""
+      token: "",
+      error: ""
     };
   },
   methods: {
     checkUserAuthStatus: function checkUserAuthStatus() {
       this.token = localStorage.getItem('mvToken');
+    },
+    logout: function logout() {
+      var _this = this;
+
+      axios.get('api/logout').then(function (response) {
+        localStorage.setItem("mvToken", undefined);
+      })["catch"](function (err) {
+        _this.error = err.response.data.error;
+        setTimeout(function () {
+          _this.error = "";
+        }, 3000);
+      });
     }
   },
   mounted: function mounted() {
@@ -37837,9 +37853,29 @@ var render = function() {
                         staticClass:
                           "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white"
                       },
-                      [_vm._v("\n                Add Article\n            ")]
+                      [
+                        _vm._v(
+                          "\n                    Add Article\n                "
+                        )
+                      ]
                     )
                   ])
+                : _vm._e(),
+              _vm._v(" "),
+              this.token
+                ? _c(
+                    "a",
+                    {
+                      staticClass:
+                        "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white",
+                      on: {
+                        click: function($event) {
+                          return _vm.logout()
+                        }
+                      }
+                    },
+                    [_vm._v("\n                Logout\n            ")]
+                  )
                 : _vm._e()
             ],
             1
