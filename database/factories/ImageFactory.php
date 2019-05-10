@@ -11,6 +11,6 @@ $factory->define(Image::class, function (Faker $faker) {
         'article_id' => function () {
             return Article::first()->id ?? factory(Article::class)->create()->id;
         },
-        'image_path' => $faker->image(public_path('article_images'))
+        'image_path' => $faker->image(public_path('article_images'), 800, 487),
     ];
 });
