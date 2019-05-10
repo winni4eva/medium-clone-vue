@@ -20,6 +20,7 @@
         </div>
         <div class="w-1/4 bg-grey-light h-full">
         </div>
+        <div class="editable"></div>
     </div>
 </template>
 
@@ -44,4 +45,5 @@ export default {
         }
     }
 }
+//
 </script>

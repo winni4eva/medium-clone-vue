@@ -3,7 +3,7 @@
         <div class="w-1/4 bg-grey-light h-full">
         </div>
         <div class="w-2/4 bg-grey h-full">
-            <div id="editor"></div>
+            <h2>Create Article</h2>
         </div>
         <div class="w-1/4 bg-grey-light h-full">
         </div>

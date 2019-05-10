@@ -1,13 +1,11 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
+        <title>MediumValley</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content=" {{csrf_token() }}">
-        <script>window.Laravel = { csrfToken: '{{ csrf_token() }}'}</script>
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.css">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.js"></script>
-        <title>MediumValley</title>
+        {{-- <meta name="csrf-token" content=" {{csrf_token() }}">
+        <script>window.Laravel = { csrfToken: '{{ csrf_token() }}'}</script> --}}
         
         <!-- Styles -->
         <link href="{{ asset('css/main.css') }}" rel="stylesheet">
@@ -22,6 +20,5 @@
         </div>
 
         <script src="{{ asset('js/app.js') }}"></script>
-        <script>var editor = new Jodit('#editor');</script>
     </body>
 </html>

@@ -17,22 +17,41 @@
             <div class="text-sm lg:flex-grow">
             </div>
             <div>
-                <router-link to="/login">
+                <router-link to="/login" v-if="!this.token">
                     <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                         Signin
                     </a>
+                </router-link>
+                <router-link to="/create-article" v-if="this.token">
+                <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                    Add Article
+                </a>
                 </router-link>
                 <!-- <router-link to="/register">
                     <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
                         Signup
                     </a>
                 </router-link> -->
-                <router-link to="/create-article">
-                <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
-                    Add Article
-                </a>
-                </router-link>
             </div>
         </div>
     </nav>
 </template>
+
+<script>
+    export default {
+        data(){
+            return {
+                token: ""
+            }
+        },
+
+        methods: {
+            checkUserAuthStatus() {
+                this.token = localStorage.getItem('mvToken');
+            }
+        },
+        mounted() {
+            this.checkUserAuthStatus();
+        }
+    }
+</script>
