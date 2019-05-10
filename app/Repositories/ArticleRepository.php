@@ -23,6 +23,7 @@ class ArticleRepository implements ArticleRepositoryInterface
     public function get($paginate = 10): Paginator
     {
         return $this->model->with(['images','user'])
+            ->orderBy('created_at', 'desc')
             ->simplePaginate($paginate);
     }
 }

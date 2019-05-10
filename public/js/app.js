@@ -1789,12 +1789,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      articles: [{
-        test: []
-      }]
+      articles: [],
+      error: ""
     };
   },
   mounted: function mounted() {
@@ -1802,7 +1807,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     fetchArticles: function fetchArticles() {
-      axios.get('api/articles').then(function (response) {// this.articles = response.data;
+      var _this = this;
+
+      axios.get('api/articles').then(function (response) {
+        return _this.articles = response.data.articles.data;
+      })["catch"](function (err) {
+        _this.error = err.response.data.message;
+        setTimeout(function () {
+          _this.error = "";
+        }, 3000);
       });
     }
   } //
@@ -37392,34 +37405,88 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex mb-4 flex-wrap my-6" }, [
+    this.error
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative",
+            attrs: { role: "alert" }
+          },
+          [
+            _c("span", { staticClass: "block sm:inline" }, [
+              _vm._v(_vm._s(this.error))
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "w-2/4 bg-grey h-full" },
-      _vm._l(_vm.articles, function(article) {
-        return _c(
-          "div",
-          {
-            key: article.id,
-            staticClass: "max-w-sm rounded overflow-hidden shadow-lg"
-          },
-          [
-            _c("img", {
-              staticClass: "w-full",
-              attrs: {
-                src: "https://tailwindcss.com/img/card-top.jpg",
-                alt: "Sunset in the mountains"
-              }
-            }),
-            _vm._v(" "),
-            _vm._m(0, true),
-            _vm._v(" "),
-            _vm._m(1, true)
-          ]
-        )
-      }),
-      0
+      { staticClass: "w-2/4 bg-white h-full" },
+      [
+        _c("h3", [_vm._v("Latest Articles")]),
+        _vm._v(" "),
+        _vm._l(_vm.articles, function(article) {
+          return _c(
+            "div",
+            {
+              key: article.id,
+              staticClass:
+                "max-w-sm rounded overflow-hidden shadow-lg w-full mt-6"
+            },
+            [
+              _c("img", {
+                staticClass: "w-full",
+                attrs: {
+                  src: article["images"][0]["image_path"],
+                  alt: "Sunset in the mountains"
+                }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "px-6 py-4" }, [
+                _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+                  _vm._v(_vm._s(article["title"]))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-grey-darker text-base" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(article["description"]) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "px-6 py-4" },
+                _vm._l(article["tags"], function(tag, index) {
+                  return _c(
+                    "span",
+                    {
+                      key: index,
+                      staticClass:
+                        "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
+                    },
+                    [
+                      _vm._v(
+                        "\n                    #" +
+                          _vm._s(tag) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            ]
+          )
+        })
+      ],
+      2
     ),
     _vm._v(" "),
     _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
@@ -37427,57 +37494,7 @@ var render = function() {
     _c("div", { staticClass: "editable" })
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "px-6 py-4" }, [
-      _c("div", { staticClass: "font-bold text-xl mb-2" }, [
-        _vm._v("The Coldest Sunset")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "text-grey-darker text-base" }, [
-        _vm._v(
-          "\n                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.\n                "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "px-6 py-4" }, [
-      _c(
-        "span",
-        {
-          staticClass:
-            "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
-        },
-        [_vm._v("#photography")]
-      ),
-      _vm._v(" "),
-      _c(
-        "span",
-        {
-          staticClass:
-            "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
-        },
-        [_vm._v("#travel")]
-      ),
-      _vm._v(" "),
-      _c(
-        "span",
-        {
-          staticClass:
-            "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker"
-        },
-        [_vm._v("#winter")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
