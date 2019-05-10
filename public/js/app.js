@@ -1861,6 +1861,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1941,26 +1942,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       register: {
         email: "",
         password: ""
-      }
+      },
+      errors: [],
+      success: ""
     };
   },
   methods: {
     registerUser: function registerUser() {
+      var _this = this;
+
       axios.post('/api/register', this.register).then(function (res) {
-        return console.log(res);
+        return _this.success = res.data.message;
       })["catch"](function (err) {
-        return console.log(err);
+        return _this.errors = err.response.data;
       });
     }
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  mounted: function mounted() {// console.log('Component mounted.')
   }
 });
 
@@ -37514,6 +37519,8 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
+      _c("h2", [_vm._v("Admin SignIn")]),
+      _vm._v(" "),
       _c(
         "form",
         { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
@@ -37637,6 +37644,8 @@ var render = function() {
     "div",
     { staticClass: "flex justify-end w-full max-w-md my-6 clearfix" },
     [
+      _c("h2", [_vm._v("Admin SignUp")]),
+      _vm._v(" "),
       _c(
         "form",
         { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },

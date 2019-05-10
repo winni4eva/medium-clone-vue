@@ -28,9 +28,10 @@ Route::group(
     }
 );
 
+Route::resource('articles', 'ArticleController', ['only' => ['index']]);
 Route::group(
     ['middleware' => 'auth:api'],
     function () {
-        Route::resource('articles', 'ArticlesController', ['except' => ['index']]);
+        Route::resource('articles', 'ArticleController', ['except' => ['index']]);
     }
 );
