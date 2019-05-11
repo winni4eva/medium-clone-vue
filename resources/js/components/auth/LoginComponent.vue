@@ -40,8 +40,9 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers';
+    import { setTimeout } from 'timers';
     export default {
+        name: "Login",
         data(){
             return {
                 login: {
@@ -59,6 +60,7 @@ import { setTimeout } from 'timers';
                         localStorage.setItem("mvToken", res.data.token);
                         this.error = "";
                         this.$router.push('/create-article');
+                        window.location.reload;
                     })
                     .catch(err => {
                         this.error = err.response.data.error;

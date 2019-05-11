@@ -42,6 +42,7 @@
 
 <script>
     export default {
+        name: "NavBar",
         data(){
             return {
                 token: "",
@@ -50,9 +51,11 @@
         },
         methods: {
             logout() {
-                axios.get('api/logout')
+                axios.get('api/logout', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
                     .then((response) => {
-                        localStorage.setItem("mvToken", undefined);
+                        localStorage.setItem("mvToken", "");
+                        this.$router.push('/articles');
+                        window.location.reload;
                     })
                     .catch(err => {
                         this.error = err.response.data.error;
@@ -61,6 +64,9 @@
                         }, 3000);
                     });
             }
+        },
+        updated() {
+            this.token = this.getToken();
         },
         mounted() {
             this.token = this.getToken();

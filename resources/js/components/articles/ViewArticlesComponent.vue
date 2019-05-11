@@ -32,6 +32,7 @@
 
 <script>
 export default {
+    name: "ViewArticle",
     data() {
         return {
             articles: [],

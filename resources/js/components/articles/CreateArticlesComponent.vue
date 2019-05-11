@@ -80,6 +80,7 @@
 import _ from 'lodash'
 
 export default {
+    name: "CreateArticle",
     data() {
         return {
             article: {
@@ -99,7 +100,7 @@ export default {
 
     methods: {
         createArticle() {
-            axios.post('api/articles', this.article)
+            axios.post('api/articles', this.article, { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
                 .then(response => console.log(response))
                 .catch(err => {
                     this.error = err.response.data.message;

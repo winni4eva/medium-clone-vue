@@ -1845,6 +1845,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "CreateArticle",
   data: function data() {
     return {
       article: {
@@ -1863,7 +1864,11 @@ __webpack_require__.r(__webpack_exports__);
     createArticle: function createArticle() {
       var _this = this;
 
-      axios.post('api/articles', this.article).then(function (response) {
+      axios.post('api/articles', this.article, {
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken'))
+        }
+      }).then(function (response) {
         return console.log(response);
       })["catch"](function (err) {
         _this.error = err.response.data.message;
@@ -1943,6 +1948,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ViewArticle",
   data: function data() {
     return {
       articles: [],
@@ -2025,6 +2031,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Login",
   data: function data() {
     return {
       login: {
@@ -2043,6 +2050,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.error = "";
 
         _this.$router.push('/create-article');
+
+        window.location.reload;
       })["catch"](function (err) {
         _this.error = err.response.data.error;
         Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
@@ -2105,6 +2114,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Register",
   data: function data() {
     return {
       register: {
@@ -2184,6 +2194,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: "NavBar",
   data: function data() {
     return {
       token: "",
@@ -2194,8 +2205,16 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      axios.get('api/logout').then(function (response) {
-        localStorage.setItem("mvToken", undefined);
+      axios.get('api/logout', {
+        headers: {
+          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken'))
+        }
+      }).then(function (response) {
+        localStorage.setItem("mvToken", "");
+
+        _this.$router.push('/articles');
+
+        window.location.reload;
       })["catch"](function (err) {
         _this.error = err.response.data.error;
         setTimeout(function () {
@@ -2203,6 +2222,9 @@ __webpack_require__.r(__webpack_exports__);
         }, 3000);
       });
     }
+  },
+  updated: function updated() {
+    this.token = this.getToken();
   },
   mounted: function mounted() {
     this.token = this.getToken();
@@ -53636,7 +53658,7 @@ router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
-    if (localStorage.getItem('mvToken') == null) {
+    if (!localStorage.getItem('mvToken')) {
       next({
         path: '/articles',
         params: {
