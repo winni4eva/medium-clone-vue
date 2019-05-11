@@ -17,7 +17,8 @@
                             v-model="article.title" 
                             class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey" 
                             id="title" 
-                            type="text">
+                            type="text"
+                            placeholder="My Best Programming Book Of All Time">
 
                     </div>
 
@@ -29,7 +30,13 @@
 
                     </div>
                     <div class="flex items-center border-b border-b-2 border-teal py-2 w-full px-3">
-                        <input v-model="tag" v-on:keyup.space="addTag($event)" class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="fashion" aria-label="tag">
+                        <input 
+                            v-model="tag" 
+                            v-on:keyup.space="addTag($event)" 
+                            class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" 
+                            type="text" 
+                            placeholder="tags" 
+                            aria-label="tag">
 
                         <p class="text-grey-dark text-xs italic">Enter tag and hit space button to save</p>
                     </div>
@@ -55,7 +62,7 @@
                         <div class="flex flex-wrap bg-white">
                             <div
                                 v-for="(src, index) in article.images" v-bind:key="index" 
-                                class="h-48 w-48 w-2/5 p-2" 
+                                class="h-48 w-48 w-2/5 p-2 mr-2" 
                                 v-bind:style="{'background-image': 'url('+src['img_path']+')'}"
                                 title="uploaded image">
                             </div>
@@ -78,7 +85,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import { serverBus } from '../../app';
 
 export default {
     name: "CreateArticle",
@@ -97,7 +104,18 @@ export default {
 
     methods: {
         createArticle() {
-            axios.post('api/articles', this.article, { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
+            let formData = new FormData()
+
+            formData.append('title', this.article.title);
+            formData.append('description', this.article.description);
+            formData.append('tags', this.article.tags);
+
+            const imagesLength = this.article.images.length;
+            for (let index = 0; index < imagesLength; index++) {
+                formData.append(`image_${index}`, this.article.images[index]);
+            }
+
+            axios.post('api/articles', formData, { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
                 .then(response => console.log(response))
                 .catch(err => {
                     this.error = err.response.data.message;
@@ -105,6 +123,7 @@ export default {
                     if(err.response.status === 401) {
                         this.$router.push('/login');
                         localStorage.removeItem('mvToken');
+                        serverBus.$emit('tokenChanged', "");
                     }
                     setTimeout(() => {
                         this.error = "";
@@ -119,15 +138,13 @@ export default {
             this.article.tags.splice(index, 1);
         },
         imageSelected(event) {
-            let selectedImages = event['target']['files'];
-            const filesLength = selectedImages.length;
-
+            const filesLength = event['srcElement']['files'].length;
             for (let index = 0; index < filesLength; index++) {
-                selectedImages[index]['img_path'] = URL.createObjectURL(event.target.files[index]);
-                this.article.images.push(selectedImages[index]);
+                event['srcElement']['files'][index]['img_path'] = URL.createObjectURL(event.target.files[index]);
+                this.article.images.push(event['srcElement']['files'][index])
             }
         }
     }
 }
-//
+
 </script>

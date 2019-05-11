@@ -1763,8 +1763,14 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1863,7 +1869,17 @@ __webpack_require__.r(__webpack_exports__);
     createArticle: function createArticle() {
       var _this = this;
 
-      axios.post('api/articles', this.article, {
+      var formData = new FormData();
+      formData.append('title', this.article.title);
+      formData.append('description', this.article.description);
+      formData.append('tags', this.article.tags);
+      var imagesLength = this.article.images.length;
+
+      for (var index = 0; index < imagesLength; index++) {
+        formData.append("image_".concat(index), this.article.images[index]);
+      }
+
+      axios.post('api/articles', formData, {
         headers: {
           "Authorization": "Bearer ".concat(localStorage.getItem('mvToken'))
         }
@@ -1876,6 +1892,7 @@ __webpack_require__.r(__webpack_exports__);
           _this.$router.push('/login');
 
           localStorage.removeItem('mvToken');
+          _app__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$emit('tokenChanged', "");
         }
 
         setTimeout(function () {
@@ -1891,16 +1908,14 @@ __webpack_require__.r(__webpack_exports__);
       this.article.tags.splice(index, 1);
     },
     imageSelected: function imageSelected(event) {
-      var selectedImages = event['target']['files'];
-      var filesLength = selectedImages.length;
+      var filesLength = event['srcElement']['files'].length;
 
       for (var index = 0; index < filesLength; index++) {
-        selectedImages[index]['img_path'] = URL.createObjectURL(event.target.files[index]);
-        this.article.images.push(selectedImages[index]);
+        event['srcElement']['files'][index]['img_path'] = URL.createObjectURL(event.target.files[index]);
+        this.article.images.push(event['srcElement']['files'][index]);
       }
     }
-  } //
-
+  }
 });
 
 /***/ }),
@@ -37587,7 +37602,11 @@ var render = function() {
                 ],
                 staticClass:
                   "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey",
-                attrs: { id: "title", type: "text" },
+                attrs: {
+                  id: "title",
+                  type: "text",
+                  placeholder: "My Best Programming Book Of All Time"
+                },
                 domProps: { value: _vm.article.title },
                 on: {
                   input: function($event) {
@@ -37659,7 +37678,7 @@ var render = function() {
                     "appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none",
                   attrs: {
                     type: "text",
-                    placeholder: "fashion",
+                    placeholder: "tags",
                     "aria-label": "tag"
                   },
                   domProps: { value: _vm.tag },
@@ -37751,7 +37770,7 @@ var render = function() {
                 _vm._l(_vm.article.images, function(src, index) {
                   return _c("div", {
                     key: index,
-                    staticClass: "h-48 w-48 w-2/5 p-2",
+                    staticClass: "h-48 w-48 w-2/5 p-2 mr-2",
                     style: {
                       "background-image": "url(" + src["img_path"] + ")"
                     },
