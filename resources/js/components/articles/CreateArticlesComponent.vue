@@ -111,11 +111,20 @@ export default {
             formData.append('tags', this.article.tags);
 
             const imagesLength = this.article.images.length;
+            let images = [];
             for (let index = 0; index < imagesLength; index++) {
-                formData.append(`image_${index}`, this.article.images[index]);
+                images.push(this.article.images[index]);
+                // formData.append(`image_${index}`, this.article.images[index]);
             }
+            formData.append('images', images);
+            const headers = { 
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem('mvToken')}`,
+                    "Accept": "application/json"
+                } 
+            };
 
-            axios.post('api/articles', formData, { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
+            axios.post('api/articles', formData, )
                 .then(response => console.log(response))
                 .catch(err => {
                     this.error = err.response.data.message;

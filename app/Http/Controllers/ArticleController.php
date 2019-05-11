@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
+use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -33,7 +34,7 @@ class ArticleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
         logger($request->all());
         return response()->json(['success'=>'Article created successfully']);

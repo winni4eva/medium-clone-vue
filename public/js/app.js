@@ -1874,16 +1874,20 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('description', this.article.description);
       formData.append('tags', this.article.tags);
       var imagesLength = this.article.images.length;
+      var images = [];
 
       for (var index = 0; index < imagesLength; index++) {
-        formData.append("image_".concat(index), this.article.images[index]);
+        images.push(this.article.images[index]); // formData.append(`image_${index}`, this.article.images[index]);
       }
 
-      axios.post('api/articles', formData, {
+      formData.append('images', images);
+      var headers = {
         headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken'))
+          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken')),
+          "Accept": "application/json"
         }
-      }).then(function (response) {
+      };
+      axios.post('api/articles', formData).then(function (response) {
         return console.log(response);
       })["catch"](function (err) {
         _this.error = err.response.data.message;
