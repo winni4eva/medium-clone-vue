@@ -94,10 +94,6 @@ export default {
         }
     },
 
-    mounted() {
-        //
-    },
-
     methods: {
         createArticle() {
             axios.post('api/articles', this.article, { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })

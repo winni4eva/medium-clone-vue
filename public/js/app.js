@@ -1858,8 +1858,6 @@ __webpack_require__.r(__webpack_exports__);
       error: ""
     };
   },
-  mounted: function mounted() {//
-  },
   methods: {
     createArticle: function createArticle() {
       var _this = this;
@@ -1988,6 +1986,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! timers */ "./node_modules/timers-browserify/main.js");
 /* harmony import */ var timers__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(timers__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -2029,6 +2028,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
@@ -2048,10 +2048,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/api/login', this.login).then(function (res) {
         localStorage.setItem("mvToken", res.data.token);
         _this.error = "";
+        _app__WEBPACK_IMPORTED_MODULE_1__["serverBus"].$emit('tokenChanged', res.data.token);
 
         _this.$router.push('/create-article');
-
-        window.location.reload;
       })["catch"](function (err) {
         _this.error = err.response.data.error;
         Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
@@ -2059,8 +2058,6 @@ __webpack_require__.r(__webpack_exports__);
         }, 3000);
       });
     }
-  },
-  mounted: function mounted() {// console.log('Component mounted.')
   }
 });
 
@@ -2135,8 +2132,6 @@ __webpack_require__.r(__webpack_exports__);
         return _this.errors = err.response.data;
       });
     }
-  },
-  mounted: function mounted() {// console.log('Component mounted.')
   }
 });
 
@@ -2151,6 +2146,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -2193,6 +2189,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "NavBar",
   data: function data() {
@@ -2211,10 +2210,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         localStorage.setItem("mvToken", "");
+        _app__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$emit('tokenChanged', "");
 
         _this.$router.push('/articles');
-
-        window.location.reload;
       })["catch"](function (err) {
         _this.error = err.response.data.error;
         setTimeout(function () {
@@ -2223,11 +2221,13 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  updated: function updated() {
-    this.token = this.getToken();
-  },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.token = this.getToken();
+    _app__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$on('tokenChanged', function (newTokenValue) {
+      _this2.token = newTokenValue;
+    });
   }
 });
 
@@ -37964,7 +37964,7 @@ var render = function() {
               attrs: {
                 id: "email",
                 type: "email",
-                placeholder: "chloe@ggmail.com"
+                placeholder: "chloe@gmail.com"
               },
               domProps: { value: _vm.login.email },
               on: {
@@ -38262,7 +38262,7 @@ var render = function() {
                       "a",
                       {
                         staticClass:
-                          "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4"
+                          "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0"
                       },
                       [_vm._v("\n                    Signin\n                ")]
                     )
@@ -38275,7 +38275,7 @@ var render = function() {
                       "a",
                       {
                         staticClass:
-                          "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white"
+                          "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0"
                       },
                       [
                         _vm._v(
@@ -38291,7 +38291,7 @@ var render = function() {
                     "a",
                     {
                       staticClass:
-                        "block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white",
+                        "inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0",
                       on: {
                         click: function($event) {
                           return _vm.logout()
@@ -53151,11 +53151,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no exports provided */
+/*! exports provided: serverBus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "serverBus", function() { return serverBus; });
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _routes_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes.js */ "./resources/js/routes.js");
 /**
@@ -53169,22 +53170,13 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+var serverBus = new Vue();
 Vue.mixin({
   mounted: function mounted() {// this.getToken();
   },
   methods: {
     getToken: function getToken() {
-      return localStorage.getItem('mvToken'); // axios.get('api/getToken', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
-      //     .then(response => {
-      //         this.responseMessage = response;
-      //         this.token = localStorage.getItem('mvToken');
-      //     })
-      //     .catch(err => {
-      //         if(err.response.status === 401) {
-      //             localStorage.removeItem('mvToken');
-      //         }
-      //         this.responseErrors = err.response;
-      //     });
+      return localStorage.getItem('mvToken');
     }
   }
 });

@@ -15,7 +15,7 @@
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline" 
                     id="email" 
                     type="email" 
-                    placeholder="chloe@ggmail.com">
+                    placeholder="chloe@gmail.com">
             </div>
             
             <div class="mb-6">
@@ -41,6 +41,8 @@
 
 <script>
     import { setTimeout } from 'timers';
+    import { serverBus } from '../../app';
+
     export default {
         name: "Login",
         data(){
@@ -49,7 +51,7 @@
                     email: "",
                     password: ""
                 },
-                error: ""
+                error: "",
             }
         },
 
@@ -59,8 +61,8 @@
                     .then(res => {
                         localStorage.setItem("mvToken", res.data.token);
                         this.error = "";
+                        serverBus.$emit('tokenChanged', res.data.token);
                         this.$router.push('/create-article');
-                        window.location.reload;
                     })
                     .catch(err => {
                         this.error = err.response.data.error;
@@ -70,8 +72,5 @@
                     });
             }
         },
-        mounted() {
-            // console.log('Component mounted.')
-        }
     }
 </script>

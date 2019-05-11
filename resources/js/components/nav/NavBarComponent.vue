@@ -18,16 +18,18 @@
             </div>
             <div>
                 <router-link to="/login" v-if="!this.token">
-                    <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white mr-4">
+                    <a class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0">
                         Signin
                     </a>
                 </router-link>
                 <router-link to="/create-article" v-if="this.token">
-                    <a class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                    <a class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0">
                         Add Article
                     </a>
                 </router-link>
-                <a v-if="this.token" @click="logout()" class="block mt-4 lg:inline-block lg:mt-0 text-grey-darkest hover:text-white">
+                <a 
+                    v-if="this.token" @click="logout()" 
+                    class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white bg-grey hover:border-transparent hover:text-grey-darkest hover:bg-white mt-4 lg:mt-0">
                     Logout
                 </a>
                 <!-- <router-link to="/register">
@@ -41,6 +43,8 @@
 </template>
 
 <script>
+    import { serverBus } from '../../app';
+
     export default {
         name: "NavBar",
         data(){
@@ -54,8 +58,8 @@
                 axios.get('api/logout', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
                     .then((response) => {
                         localStorage.setItem("mvToken", "");
+                        serverBus.$emit('tokenChanged', "");
                         this.$router.push('/articles');
-                        window.location.reload;
                     })
                     .catch(err => {
                         this.error = err.response.data.error;
@@ -65,11 +69,11 @@
                     });
             }
         },
-        updated() {
-            this.token = this.getToken();
-        },
         mounted() {
             this.token = this.getToken();
-        }
+            serverBus.$on('tokenChanged', (newTokenValue) => {
+                this.token = newTokenValue;
+            });
+        },
     }
 </script>

@@ -53,6 +53,12 @@ class Handler extends ExceptionHandler
                 ], 
                 $exception->getCode()
             );
+        } elseif ($exception instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+            return response()->json(
+                [
+                    "success" => "User logged out successfully"
+                ]
+            );
         }
         return parent::render($request, $exception);
     }

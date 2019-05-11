@@ -56,9 +56,6 @@
                     .then(res => this.success = res.data.message)
                     .catch(err => this.errors = err.response.data)
             }
-        },
-        mounted() {
-            // console.log('Component mounted.')
         }
     }
 </script>

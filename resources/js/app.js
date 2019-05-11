@@ -12,6 +12,9 @@ import VueRouter from 'vue-router';
 import router from './routes.js';
 
 Vue.use(VueRouter);
+
+export const serverBus = new Vue();
+
 Vue.mixin({
     mounted() {
         // this.getToken();
@@ -19,17 +22,6 @@ Vue.mixin({
     methods: {
         getToken(){
             return localStorage.getItem('mvToken');
-            // axios.get('api/getToken', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
-            //     .then(response => {
-            //         this.responseMessage = response;
-            //         this.token = localStorage.getItem('mvToken');
-            //     })
-            //     .catch(err => {
-            //         if(err.response.status === 401) {
-            //             localStorage.removeItem('mvToken');
-            //         }
-            //         this.responseErrors = err.response;
-            //     });
         }
     }
 });
