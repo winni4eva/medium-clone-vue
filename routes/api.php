@@ -30,7 +30,7 @@ Route::group(
 
 Route::resource('articles', 'ArticleController', ['only' => ['index']]);
 Route::group(
-    ['middleware' => 'auth:api'],
+    ['middleware' => 'api'],
     function () {
         Route::resource('articles', 'ArticleController', ['except' => ['index']]);
     }

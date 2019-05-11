@@ -1883,11 +1883,11 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('images', images);
       var headers = {
         headers: {
-          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken')),
-          "Accept": "application/json"
+          "Accept": "application/json",
+          "Authorization": "Bearer ".concat(localStorage.getItem('mvToken'))
         }
       };
-      axios.post('api/articles', formData).then(function (response) {
+      axios.post('api/articles', formData, headers).then(function (response) {
         return console.log(response);
       })["catch"](function (err) {
         _this.error = err.response.data.message;

@@ -119,12 +119,12 @@ export default {
             formData.append('images', images);
             const headers = { 
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('mvToken')}`,
-                    "Accept": "application/json"
+                    "Accept": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('mvToken')}`
                 } 
             };
 
-            axios.post('api/articles', formData, )
+            axios.post('api/articles', formData, headers)
                 .then(response => console.log(response))
                 .catch(err => {
                     this.error = err.response.data.message;
