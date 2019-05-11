@@ -66,7 +66,8 @@
    
                 <button
                     @click="createArticle()" 
-                    class="bg-blue hover:bg-blue-light text-white my-6 font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded">
+                    class="bg-blue hover:bg-blue-light text-white my-6 font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded"
+                    type="button">
                     Save
                 </button>
             </form>

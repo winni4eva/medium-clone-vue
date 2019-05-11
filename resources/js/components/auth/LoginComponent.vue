@@ -31,7 +31,10 @@
             </div>
             
             <div class="flex items-center justify-between">
-                <button @click="loginUser()" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                <button 
+                    @click="loginUser()" 
+                    class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
+                    type="button">
                     Sign In
                 </button>
             </div>
