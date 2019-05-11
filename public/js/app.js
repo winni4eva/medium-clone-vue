@@ -1872,15 +1872,15 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('title', this.article.title);
       formData.append('description', this.article.description);
-      formData.append('tags', this.article.tags);
+      formData.append('tags', JSON.stringify(this.article.tags));
       var imagesLength = this.article.images.length;
       var images = [];
 
       for (var index = 0; index < imagesLength; index++) {
-        images.push(this.article.images[index]); // formData.append(`image_${index}`, this.article.images[index]);
+        images.push(this.article.images[index]);
       }
 
-      formData.append('images', images);
+      formData.append('images', JSON.stringify(images));
       var headers = {
         headers: {
           "Accept": "application/json",

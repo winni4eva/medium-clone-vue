@@ -26,8 +26,8 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'tags' => 'required|array',
-            'images' => 'required|array',
+            'tags' => 'required|json',
+            'images' => 'required|json',
             'images.*' => 'mimes:jpeg,jpg,bmp,png',
         ];
     }

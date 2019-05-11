@@ -108,15 +108,15 @@ export default {
 
             formData.append('title', this.article.title);
             formData.append('description', this.article.description);
-            formData.append('tags', this.article.tags);
+            formData.append('tags', JSON.stringify(this.article.tags));
 
             const imagesLength = this.article.images.length;
             let images = [];
             for (let index = 0; index < imagesLength; index++) {
                 images.push(this.article.images[index]);
-                // formData.append(`image_${index}`, this.article.images[index]);
             }
-            formData.append('images', images);
+            
+            formData.append('images', JSON.stringify(images));
             const headers = { 
                 headers: {
                     "Accept": "application/json",
