@@ -38,9 +38,8 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct(JWTAuth $jwt)
+    public function __construct()
     {
-        $this->jwt = $jwt;
         $this->middleware('guest')->except('logout');
     }
 
@@ -55,7 +54,7 @@ class LoginController extends Controller
 
         $credentials = $request->only('email', 'password');
 
-        if (!$token = $this->jwt->attempt($credentials)) {
+        if (!$token = JWTAuth::attempt($credentials)) {
             throw new InvalidCredentialsException(401);
         }
 
@@ -86,7 +85,7 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        if ($this->jwt->parseToken()->invalidate()) {
+        if (JWTAuth::parseToken()->invalidate()) {
             return response()->json(
                 ['success' => 'User logged out successfully...']
             );

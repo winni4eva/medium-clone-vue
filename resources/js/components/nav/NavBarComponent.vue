@@ -48,11 +48,7 @@
                 error: ""
             }
         },
-
         methods: {
-            checkUserAuthStatus() {
-                this.token = localStorage.getItem('mvToken');
-            },
             logout() {
                 axios.get('api/logout')
                     .then((response) => {
@@ -67,7 +63,7 @@
             }
         },
         mounted() {
-            this.checkUserAuthStatus();
+            this.token = this.getToken();
         }
     }
 </script>

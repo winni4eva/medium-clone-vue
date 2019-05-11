@@ -3,9 +3,10 @@
         <div v-if="this.error" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded absolute" role="alert">
             <span class="block sm:inline">{{this.error}}</span>
         </div>
-        <h2>Admin SignIn</h2>
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">         
-            <div class="mb-4">
+        
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">  
+            <h3>SignIn</h3>       
+            <div class="mb-4 my-6">
                 <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
                     Email
                 </label>
@@ -55,9 +56,9 @@ import { setTimeout } from 'timers';
             loginUser() {
                 axios.post('/api/login', this.login)
                     .then(res => {
-                        const token = res.data.token;
-                        localStorage.setItem("mvToken", token);
+                        localStorage.setItem("mvToken", res.data.token);
                         this.error = "";
+                        this.$router.push('/create-article');
                     })
                     .catch(err => {
                         this.error = err.response.data.error;
@@ -68,7 +69,7 @@ import { setTimeout } from 'timers';
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            // console.log('Component mounted.')
         }
     }
 </script>

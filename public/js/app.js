@@ -1838,6 +1838,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -1846,24 +1851,33 @@ __webpack_require__.r(__webpack_exports__);
         title: "",
         description: "",
         tags: [],
-        images: {}
+        images: []
       },
-      srcUrls: [],
       tag: "",
       error: ""
     };
   },
-  mounted: function mounted() {//this.fetchArticles();
+  mounted: function mounted() {//
   },
   methods: {
-    fetchArticles: function fetchArticles() {// axios.get('api/articles')
-      //     .then(response => this.articles = response.data.articles.data)
-      //     .catch(err => {
-      //         this.error = err.response.data.message;
-      //         setTimeout(() => {
-      //             this.error = "";
-      //         }, 3000);
-      //     })
+    createArticle: function createArticle() {
+      var _this = this;
+
+      axios.post('api/articles', this.article).then(function (response) {
+        return console.log(response);
+      })["catch"](function (err) {
+        _this.error = err.response.data.message;
+
+        if (err.response.status === 401) {
+          _this.$router.push('/login');
+
+          localStorage.removeItem('mvToken');
+        }
+
+        setTimeout(function () {
+          _this.error = "";
+        }, 3000);
+      });
     },
     addTag: function addTag(event) {
       this.article['tags'].push(event.srcElement.value);
@@ -1873,13 +1887,12 @@ __webpack_require__.r(__webpack_exports__);
       this.article.tags.splice(index, 1);
     },
     imageSelected: function imageSelected(event) {
-      //const selectedImages = event['target']['files'];
-      // this.article.images = {...selectedImages, ...this.article.images}
-      //console.log(selectedImages)
-      var fileLength = event['target']['files'].length;
+      var selectedImages = event['target']['files'];
+      var filesLength = selectedImages.length;
 
-      for (var index = 0; index < fileLength; index++) {
-        this.srcUrls.push(URL.createObjectURL(event.target.files[index]));
+      for (var index = 0; index < filesLength; index++) {
+        selectedImages[index]['img_path'] = URL.createObjectURL(event.target.files[index]);
+        this.article.images.push(selectedImages[index]);
       }
     }
   } //
@@ -2009,6 +2022,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2025,9 +2039,10 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.post('/api/login', this.login).then(function (res) {
-        var token = res.data.token;
-        localStorage.setItem("mvToken", token);
+        localStorage.setItem("mvToken", res.data.token);
         _this.error = "";
+
+        _this.$router.push('/create-article');
       })["catch"](function (err) {
         _this.error = err.response.data.error;
         Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
@@ -2036,8 +2051,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+  mounted: function mounted() {// console.log('Component mounted.')
   }
 });
 
@@ -2177,9 +2191,6 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    checkUserAuthStatus: function checkUserAuthStatus() {
-      this.token = localStorage.getItem('mvToken');
-    },
     logout: function logout() {
       var _this = this;
 
@@ -2194,7 +2205,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.checkUserAuthStatus();
+    this.token = this.getToken();
   }
 });
 
@@ -37500,6 +37511,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex mb-4 flex-wrap my-6" }, [
+    this.error
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative",
+            attrs: { role: "alert" }
+          },
+          [
+            _c("span", { staticClass: "block sm:inline" }, [
+              _vm._v(_vm._s(this.error))
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
     _vm._v(" "),
     _c("div", { staticClass: "w-2/4 h-full" }, [
@@ -37508,43 +37535,6 @@ var render = function() {
           "div",
           { staticClass: "flex flex-wrap -mx-3 mb-6" },
           [
-            _c("div", { staticClass: "w-full px-3" }, [
-              _c(
-                "label",
-                {
-                  staticClass:
-                    "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
-                  attrs: { for: "images" }
-                },
-                [
-                  _vm._v(
-                    "\n                        Images\n                    "
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("input", {
-                staticClass:
-                  "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey",
-                attrs: { id: "images", type: "file", multiple: "" },
-                on: { change: _vm.imageSelected }
-              }),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "flex flex-wrap bg-white" },
-                _vm._l(_vm.srcUrls, function(src, index) {
-                  return _c("div", {
-                    key: index,
-                    staticClass: "h-48 w-48 w-2/5 p-2",
-                    style: { "background-image": "url(" + src + ")" },
-                    attrs: { title: "uploaded image" }
-                  })
-                }),
-                0
-              )
-            ]),
-            _vm._v(" "),
             _c("div", { staticClass: "w-full px-3 my-3" }, [
               _c(
                 "label",
@@ -37705,7 +37695,46 @@ var render = function() {
                   ]
                 )
               ])
-            })
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "w-full px-3 my-6" }, [
+              _c(
+                "label",
+                {
+                  staticClass:
+                    "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                  attrs: { for: "images" }
+                },
+                [
+                  _vm._v(
+                    "\n                        Images\n                    "
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey",
+                attrs: { id: "images", type: "file", multiple: "" },
+                on: { change: _vm.imageSelected }
+              }),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "flex flex-wrap bg-white" },
+                _vm._l(_vm.article.images, function(src, index) {
+                  return _c("div", {
+                    key: index,
+                    staticClass: "h-48 w-48 w-2/5 p-2",
+                    style: {
+                      "background-image": "url(" + src["img_path"] + ")"
+                    },
+                    attrs: { title: "uploaded image" }
+                  })
+                }),
+                0
+              )
+            ])
           ],
           2
         ),
@@ -37714,7 +37743,12 @@ var render = function() {
           "button",
           {
             staticClass:
-              "bg-blue hover:bg-blue-light text-white my-6 font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded"
+              "bg-blue hover:bg-blue-light text-white my-6 font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded",
+            on: {
+              click: function($event) {
+                return _vm.createArticle()
+              }
+            }
           },
           [_vm._v("\n                Save\n            ")]
         )
@@ -37878,13 +37912,13 @@ var render = function() {
           )
         : _vm._e(),
       _vm._v(" "),
-      _c("h2", [_vm._v("Admin SignIn")]),
-      _vm._v(" "),
       _c(
         "form",
         { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
         [
-          _c("div", { staticClass: "mb-4" }, [
+          _c("h3", [_vm._v("SignIn")]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mb-4 my-6" }, [
             _c(
               "label",
               {
@@ -53113,6 +53147,25 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 
 
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
+Vue.mixin({
+  mounted: function mounted() {// this.getToken();
+  },
+  methods: {
+    getToken: function getToken() {
+      return localStorage.getItem('mvToken'); // axios.get('api/getToken', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
+      //     .then(response => {
+      //         this.responseMessage = response;
+      //         this.token = localStorage.getItem('mvToken');
+      //     })
+      //     .catch(err => {
+      //         if(err.response.status === 401) {
+      //             localStorage.removeItem('mvToken');
+      //         }
+      //         this.responseErrors = err.response;
+      //     });
+    }
+  }
+});
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

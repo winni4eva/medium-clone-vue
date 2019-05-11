@@ -11,7 +11,28 @@ window.Vue = require('vue');
 import VueRouter from 'vue-router';
 import router from './routes.js';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
+Vue.mixin({
+    mounted() {
+        // this.getToken();
+    },
+    methods: {
+        getToken(){
+            return localStorage.getItem('mvToken');
+            // axios.get('api/getToken', { headers: {"Authorization" : `Bearer ${localStorage.getItem('mvToken')}`} })
+            //     .then(response => {
+            //         this.responseMessage = response;
+            //         this.token = localStorage.getItem('mvToken');
+            //     })
+            //     .catch(err => {
+            //         if(err.response.status === 401) {
+            //             localStorage.removeItem('mvToken');
+            //         }
+            //         this.responseErrors = err.response;
+            //     });
+        }
+    }
+});
 
 /**
  * The following block of code may be used to automatically register your
