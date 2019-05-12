@@ -42,9 +42,11 @@
 
 <script>
 import { serverBus } from '../../app';
+import { ArticleMixin } from '../mixins/ArticleMixin';
 
 export default {
     name: "ViewArticle",
+    mixins: [ArticleMixin],
     data() {
         return {
             article: "",
@@ -58,20 +60,11 @@ export default {
         serverBus.$on('tokenChanged', (newTokenValue) => {
             this.token = newTokenValue;
         });
-        this.fetchArticle(this.$route.params.articleId);
+        this.articleId = this.$route.params.articleId;
+        this.fetchArticle();
     },
 
     methods: {
-        fetchArticle(articleId) {
-            axios.get(`api/articles/${articleId}`)
-                .then(response => this.article = response.data.article)
-                .catch(err => {
-                    this.error = err.response.data.message;
-                    setTimeout(() => {
-                        this.error = "";
-                    }, 3000);
-                });
-        },
         setDefaultImage(event) {
             event.target.src = 'article_images/article_default_image.jpg';
         },

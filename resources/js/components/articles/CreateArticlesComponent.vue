@@ -108,9 +108,11 @@
 
 <script>
 import { serverBus } from '../../app';
+import { ArticleMixin } from '../mixins/ArticleMixin';
 
 export default {
     name: "CreateArticle",
+    mixins: [ArticleMixin],
     data() {
         return {
             article: {
@@ -123,10 +125,15 @@ export default {
             tag: "",
             error: "",
             erroMessage: "",
+            update: false,
         }
     },
     mounted() {
-        console.log(this.$route.params.articleId);
+        if (this.$route.params.articleId > 0) {
+            this.update = true;
+            this.articleId = this.$route.params.articleId;
+            this.fetchArticle();
+        }
     },
     methods: {
         createArticle() {

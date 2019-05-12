@@ -1764,6 +1764,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
+/* harmony import */ var _mixins_ArticleMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/ArticleMixin */ "./resources/js/components/mixins/ArticleMixin.js");
 //
 //
 //
@@ -1873,8 +1874,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateArticle",
+  mixins: [_mixins_ArticleMixin__WEBPACK_IMPORTED_MODULE_1__["ArticleMixin"]],
   data: function data() {
     return {
       article: {
@@ -1886,11 +1889,16 @@ __webpack_require__.r(__webpack_exports__);
       successMessage: "",
       tag: "",
       error: "",
-      erroMessage: ""
+      erroMessage: "",
+      update: false
     };
   },
   mounted: function mounted() {
-    console.log(this.$route.params.articleId);
+    if (this.$route.params.articleId > 0) {
+      this.update = true;
+      this.articleId = this.$route.params.articleId;
+      this.fetchArticle();
+    }
   },
   methods: {
     createArticle: function createArticle() {
@@ -1968,6 +1976,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
+/* harmony import */ var _mixins_ArticleMixin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../mixins/ArticleMixin */ "./resources/js/components/mixins/ArticleMixin.js");
 //
 //
 //
@@ -2011,8 +2020,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViewArticle",
+  mixins: [_mixins_ArticleMixin__WEBPACK_IMPORTED_MODULE_1__["ArticleMixin"]],
   data: function data() {
     return {
       article: "",
@@ -2028,41 +2039,30 @@ __webpack_require__.r(__webpack_exports__);
     _app__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$on('tokenChanged', function (newTokenValue) {
       _this.token = newTokenValue;
     });
-    this.fetchArticle(this.$route.params.articleId);
+    this.articleId = this.$route.params.articleId;
+    this.fetchArticle();
   },
   methods: {
-    fetchArticle: function fetchArticle(articleId) {
-      var _this2 = this;
-
-      axios.get("api/articles/".concat(articleId)).then(function (response) {
-        return _this2.article = response.data.article;
-      })["catch"](function (err) {
-        _this2.error = err.response.data.message;
-        setTimeout(function () {
-          _this2.error = "";
-        }, 3000);
-      });
-    },
     setDefaultImage: function setDefaultImage(event) {
       event.target.src = 'article_images/article_default_image.jpg';
     },
     deleteArticle: function deleteArticle() {
-      var _this3 = this;
+      var _this2 = this;
 
       var answer = confirm("Do you want to delete this article?");
 
       if (answer) {
         axios["delete"]("api/articles/".concat(this.article.id)).then(function (response) {
-          _this3.successMessage = response.data.success;
+          _this2.successMessage = response.data.success;
           setTimeout(function () {
-            _this3.successMessage = "";
+            _this2.successMessage = "";
 
-            _this3.$router.push('/articles');
+            _this2.$router.push('/articles');
           }, 3000);
         })["catch"](function (err) {
-          _this3.error = err.response.data.message;
+          _this2.error = err.response.data.message;
           setTimeout(function () {
-            _this3.error = "";
+            _this2.error = "";
           }, 3000);
         });
       }
@@ -54081,6 +54081,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_RegisterComponent_vue_vue_type_template_id_73ff475e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/mixins/ArticleMixin.js":
+/*!********************************************************!*\
+  !*** ./resources/js/components/mixins/ArticleMixin.js ***!
+  \********************************************************/
+/*! exports provided: ArticleMixin */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ArticleMixin", function() { return ArticleMixin; });
+var ArticleMixin = {
+  data: function data() {
+    return {
+      articleId: ""
+    };
+  },
+  methods: {
+    fetchArticle: function fetchArticle() {
+      var _this = this;
+
+      axios.get("api/articles/".concat(this.articleId)).then(function (response) {
+        return _this.article = response.data.article;
+      })["catch"](function (err) {
+        _this.error = err.response.data.message;
+        setTimeout(function () {
+          _this.error = "";
+        }, 3000);
+      });
+    }
+  }
+};
 
 /***/ }),
 
