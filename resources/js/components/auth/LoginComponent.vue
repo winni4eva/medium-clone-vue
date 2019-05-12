@@ -1,11 +1,11 @@
 <template>
-    <div class="flex justify-end w-full max-w-md my-6 clearfix">
-        <div v-if="this.error" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded absolute" role="alert">
-            <span class="block sm:inline">{{this.error}}</span>
-        </div>
+    <div class="flex justify-end w-full my-6 clearfix">
         
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">  
-            <h3>SignIn</h3>       
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24">  
+            <h3>SignIn</h3>     
+            <span class="block sm:inline text-red-dark my-2" v-if="this.error && this.error.message">
+                {{this.error && this.error.message}}
+            </span>
             <div class="mb-4 my-6">
                 <label class="block text-grey-darker text-sm font-bold mb-2" for="email">
                     Email
@@ -16,6 +16,11 @@
                     id="email" 
                     type="email" 
                     placeholder="chloe@gmail.com">
+                <p 
+                    class="text-red-dark text-xs italic" 
+                    v-if="this.error && this.error.errors && this.error.errors.email && Array.isArray(this.error.errors.email)">
+                    {{this.error.errors.email[0]}}
+                </p>
             </div>
             
             <div class="mb-6">
@@ -28,6 +33,11 @@
                     id="password" 
                     type="password" 
                     placeholder="***">
+                <p 
+                    class="text-red-dark text-xs italic" 
+                    v-if="this.error && this.error.errors && this.error.errors.password && Array.isArray(this.error.errors.password)">
+                    {{this.error.errors.password[0]}}
+                </p>
             </div>
             
             <div class="flex items-center justify-between">
@@ -68,7 +78,8 @@
                         this.$router.push('/create-article');
                     })
                     .catch(err => {
-                        this.error = err.response.data.error;
+                        this.error = err.response.data;
+                        
                         setTimeout(() => {
                             this.error = "";
                         }, 3000);

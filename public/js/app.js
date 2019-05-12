@@ -1871,8 +1871,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateArticle",
@@ -2075,6 +2073,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2099,7 +2107,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this.$router.push('/create-article');
       })["catch"](function (err) {
-        _this.error = err.response.data.error;
+        _this.error = err.response.data;
         Object(timers__WEBPACK_IMPORTED_MODULE_0__["setTimeout"])(function () {
           _this.error = "";
         }, 3000);
@@ -37585,7 +37593,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "bg-red-lightest border border-green-light text-red-dark px-4 py-3 w-full rounded relative",
+              "bg-red-lightest border border-red-dark text-red-dark px-4 py-3 w-full rounded relative",
             attrs: { role: "alert" }
           },
           [
@@ -38030,124 +38038,143 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "flex justify-end w-full max-w-md my-6 clearfix" },
-    [
-      this.error
-        ? _c(
-            "div",
+  return _c("div", { staticClass: "flex justify-end w-full my-6 clearfix" }, [
+    _c(
+      "form",
+      {
+        staticClass:
+          "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-auto my-24"
+      },
+      [
+        _c("h3", [_vm._v("SignIn")]),
+        _vm._v(" "),
+        this.error && this.error.message
+          ? _c("span", { staticClass: "block sm:inline text-red-dark my-2" }, [
+              _vm._v(
+                "\n            " +
+                  _vm._s(this.error && this.error.message) +
+                  "\n        "
+              )
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-4 my-6" }, [
+          _c(
+            "label",
+            {
+              staticClass: "block text-grey-darker text-sm font-bold mb-2",
+              attrs: { for: "email" }
+            },
+            [_vm._v("\n                Email\n            ")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.login.email,
+                expression: "login.email"
+              }
+            ],
+            staticClass:
+              "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
+            attrs: {
+              id: "email",
+              type: "email",
+              placeholder: "chloe@gmail.com"
+            },
+            domProps: { value: _vm.login.email },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.login, "email", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          this.error &&
+          this.error.errors &&
+          this.error.errors.email &&
+          Array.isArray(this.error.errors.email)
+            ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(this.error.errors.email[0]) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-6" }, [
+          _c(
+            "label",
+            {
+              staticClass: "block text-grey-darker text-sm font-bold mb-2",
+              attrs: { for: "password" }
+            },
+            [_vm._v("\n                Password\n            ")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.login.password,
+                expression: "login.password"
+              }
+            ],
+            staticClass:
+              "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
+            attrs: { id: "password", type: "password", placeholder: "***" },
+            domProps: { value: _vm.login.password },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.login, "password", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          this.error &&
+          this.error.errors &&
+          this.error.errors.password &&
+          Array.isArray(this.error.errors.password)
+            ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(this.error.errors.password[0]) +
+                    "\n            "
+                )
+              ])
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex items-center justify-between" }, [
+          _c(
+            "button",
             {
               staticClass:
-                "bg-red-lightest border border-red-light text-red-dark px-4 py-3 rounded absolute",
-              attrs: { role: "alert" }
+                "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.loginUser()
+                }
+              }
             },
-            [
-              _c("span", { staticClass: "block sm:inline" }, [
-                _vm._v(_vm._s(this.error))
-              ])
-            ]
+            [_vm._v("\n                Sign In\n            ")]
           )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "form",
-        { staticClass: "bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" },
-        [
-          _c("h3", [_vm._v("SignIn")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mb-4 my-6" }, [
-            _c(
-              "label",
-              {
-                staticClass: "block text-grey-darker text-sm font-bold mb-2",
-                attrs: { for: "email" }
-              },
-              [_vm._v("\n                Email\n            ")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.login.email,
-                  expression: "login.email"
-                }
-              ],
-              staticClass:
-                "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker leading-tight focus:outline-none focus:shadow-outline",
-              attrs: {
-                id: "email",
-                type: "email",
-                placeholder: "chloe@gmail.com"
-              },
-              domProps: { value: _vm.login.email },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.login, "email", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "mb-6" }, [
-            _c(
-              "label",
-              {
-                staticClass: "block text-grey-darker text-sm font-bold mb-2",
-                attrs: { for: "password" }
-              },
-              [_vm._v("\n                Password\n            ")]
-            ),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.login.password,
-                  expression: "login.password"
-                }
-              ],
-              staticClass:
-                "shadow appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-3 leading-tight focus:outline-none focus:shadow-outline",
-              attrs: { id: "password", type: "password", placeholder: "***" },
-              domProps: { value: _vm.login.password },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.login, "password", $event.target.value)
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex items-center justify-between" }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.loginUser()
-                  }
-                }
-              },
-              [_vm._v("\n                Sign In\n            ")]
-            )
-          ])
-        ]
-      )
-    ]
-  )
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

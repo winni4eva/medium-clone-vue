@@ -1,14 +1,12 @@
 <template>
     <div class="flex mb-4 flex-wrap my-6">
-        <div v-if="this.successMessage" class="bg-red-lightest border border-green-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
+        <div v-if="this.successMessage" class="bg-red-lightest border border-red-dark text-red-dark px-4 py-3 w-full rounded relative" role="alert">
             <span class="block sm:inline">{{this.successMessage}}</span>
         </div>
         <div v-if="this.error && this.error.message" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
             <span class="block sm:inline">{{this.error.message}}</span>
         </div>
-        <!-- <div v-if="this.erroMessage" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
-            <span class="block sm:inline">{{this.erroMessage}}</span>
-        </div> -->
+
         <div class="w-1/4 bg-grey-light h-full">
         </div>
         <div class="w-2/4 h-full">
