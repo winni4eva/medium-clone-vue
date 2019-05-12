@@ -11,7 +11,7 @@ $factory->define(Article::class, function (Faker $faker) {
         'user_id' => function () {
             return User::first()->id ?? factory(User::class)->create()->id;
         },
-        'title' => $faker->text,
+        'title' => $faker->words(5, true),
         'description' => $faker->paragraph(5),
         'tags' => $faker->words
     ];

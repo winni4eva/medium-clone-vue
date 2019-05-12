@@ -2019,6 +2019,9 @@ __webpack_require__.r(__webpack_exports__);
           _this.error = "";
         }, 3000);
       });
+    },
+    setDefaultImage: function setDefaultImage(event) {
+      event.target.src = 'article_images/article_default_image.jpg';
     }
   } //
 
@@ -37991,8 +37994,9 @@ var render = function() {
                 staticClass: "w-full",
                 attrs: {
                   src: article["images"][0]["image_path"],
-                  alt: "Sunset in the mountains"
-                }
+                  alt: "article image"
+                },
+                on: { error: _vm.setDefaultImage }
               }),
               _vm._v(" "),
               _c("div", { staticClass: "px-6 py-4" }, [
