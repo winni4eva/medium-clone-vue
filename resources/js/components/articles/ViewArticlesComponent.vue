@@ -10,7 +10,9 @@
         <div class="w-2/4 bg-white h-full">
             <h3>Latest Articles</h3>
             <div v-for="article in articles" v-bind:key="article.id" class="max-w-sm rounded overflow-hidden shadow-lg w-full mt-6">
-                <router-link :to="{ name: 'showArticle', params: { articleId: article.id }}">
+                <router-link 
+                    :to="{ name: 'showArticle', params: { articleId: article.id }}" 
+                    v-if="article && article.images && article.images[0] && article.images[0].id">
                     <img class="w-full" v-bind:src="article['images'][0]['image_path']" alt="article image" @error="setDefaultImage">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2">{{article['title']}}</div>

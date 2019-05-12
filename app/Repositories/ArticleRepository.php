@@ -45,7 +45,9 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'tags' => $request['tags']
             ]
         );
-        
+        if ($request['id'] > 0) {
+            $article->images()->delete();
+        }
         $articleImages = [];
         foreach ($request['images'] as $image) {
             $image_path = $image->store(

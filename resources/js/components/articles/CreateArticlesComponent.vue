@@ -97,7 +97,7 @@
                     @click="createArticle()" 
                     class="bg-blue hover:bg-blue-light text-white my-6 font-bold py-2 px-4 border-b-4 border-blue-dark hover:border-blue float-right rounded"
                     type="button">
-                    Save
+                    {{this.update ? 'Update': 'Save'}}
                 </button>
             </form>
         </div>
@@ -132,12 +132,8 @@ export default {
         if (this.$route.params.articleId > 0) {
             this.update = true;
             this.articleId = this.$route.params.articleId;
+            this.unsetImages=true;
             this.fetchArticle();
-        }
-    },
-    updated() {
-        if (this.update) {
-            this.convertImageUrlsToBlob();
         }
     },
     methods: {
@@ -147,7 +143,9 @@ export default {
             formData.append('title', this.article.title);
             formData.append('description', this.article.description);
             formData.append('tags', JSON.stringify(this.article.tags));
-
+            if (this.update) {
+                formData.append('id', this.articleId);
+            }
             const imagesLength = this.article.images.length;
         
             for (let index = 0; index < imagesLength; index++) {
@@ -198,14 +196,6 @@ export default {
             for (let index = 0; index < filesLength; index++) {
                 event['srcElement']['files'][index]['image_path'] = URL.createObjectURL(event.target.files[index]);
                 this.article.images.push(event['srcElement']['files'][index]);
-            }
-        },
-        convertImageUrlsToBlob() {
-            console.log('Converting Images');
-            const imagesLength = this.article.images.length;
-            // console.log(this.article);
-            for (let index = 0; index < imagesLength; index++) {
-                console.log(this.article.images[index]['image_path']);
             }
         }
     }

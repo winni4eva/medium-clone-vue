@@ -41,8 +41,10 @@ class ArticleController extends Controller
         $user = JWTAuth::parseToken()->authenticate();
 
         $this->articleRepo->createOrUpdate($request->all(), $user);
+        
+        $action = $request->get('id') ? 'updated' : 'created';
 
-        return response()->json(['success' => 'Article created successfully']);
+        return response()->json(['success' => "Article {$action} successfully"]);
     }
 
     /**

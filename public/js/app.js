@@ -1897,12 +1897,8 @@ __webpack_require__.r(__webpack_exports__);
     if (this.$route.params.articleId > 0) {
       this.update = true;
       this.articleId = this.$route.params.articleId;
+      this.unsetImages = true;
       this.fetchArticle();
-    }
-  },
-  updated: function updated() {
-    if (this.update) {
-      this.convertImageUrlsToBlob();
     }
   },
   methods: {
@@ -1913,6 +1909,11 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('title', this.article.title);
       formData.append('description', this.article.description);
       formData.append('tags', JSON.stringify(this.article.tags));
+
+      if (this.update) {
+        formData.append('id', this.articleId);
+      }
+
       var imagesLength = this.article.images.length;
 
       for (var index = 0; index < imagesLength; index++) {
@@ -1964,14 +1965,6 @@ __webpack_require__.r(__webpack_exports__);
       for (var index = 0; index < filesLength; index++) {
         event['srcElement']['files'][index]['image_path'] = URL.createObjectURL(event.target.files[index]);
         this.article.images.push(event['srcElement']['files'][index]);
-      }
-    },
-    convertImageUrlsToBlob: function convertImageUrlsToBlob() {
-      console.log('Converting Images');
-      var imagesLength = this.article.images.length; // console.log(this.article);
-
-      for (var index = 0; index < imagesLength; index++) {
-        console.log(this.article.images[index]['image_path']);
       }
     }
   }
@@ -2102,6 +2095,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -38066,7 +38061,13 @@ var render = function() {
               }
             }
           },
-          [_vm._v("\n                Save\n            ")]
+          [
+            _vm._v(
+              "\n                " +
+                _vm._s(this.update ? "Update" : "Save") +
+                "\n            "
+            )
+          ]
         )
       ])
     ]),
@@ -38291,64 +38292,69 @@ var render = function() {
                 "max-w-sm rounded overflow-hidden shadow-lg w-full mt-6"
             },
             [
-              _c(
-                "router-link",
-                {
-                  attrs: {
-                    to: {
-                      name: "showArticle",
-                      params: { articleId: article.id }
-                    }
-                  }
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-full",
-                    attrs: {
-                      src: article["images"][0]["image_path"],
-                      alt: "article image"
+              article &&
+              article.images &&
+              article.images[0] &&
+              article.images[0].id
+                ? _c(
+                    "router-link",
+                    {
+                      attrs: {
+                        to: {
+                          name: "showArticle",
+                          params: { articleId: article.id }
+                        }
+                      }
                     },
-                    on: { error: _vm.setDefaultImage }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "px-6 py-4" }, [
-                    _c("div", { staticClass: "font-bold text-xl mb-2" }, [
-                      _vm._v(_vm._s(article["title"]))
-                    ]),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "text-grey-darker text-base" }, [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(article["description"]) +
-                          "\n                    "
-                      )
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "px-6 py-4" },
-                    _vm._l(article["tags"], function(tag, index) {
-                      return _c(
-                        "span",
-                        {
-                          key: index,
-                          staticClass:
-                            "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
+                    [
+                      _c("img", {
+                        staticClass: "w-full",
+                        attrs: {
+                          src: article["images"][0]["image_path"],
+                          alt: "article image"
                         },
-                        [
+                        on: { error: _vm.setDefaultImage }
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "px-6 py-4" }, [
+                        _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+                          _vm._v(_vm._s(article["title"]))
+                        ]),
+                        _vm._v(" "),
+                        _c("p", { staticClass: "text-grey-darker text-base" }, [
                           _vm._v(
-                            "\n                        #" +
-                              _vm._s(tag) +
+                            "\n                        " +
+                              _vm._s(article["description"]) +
                               "\n                    "
                           )
-                        ]
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "px-6 py-4" },
+                        _vm._l(article["tags"], function(tag, index) {
+                          return _c(
+                            "span",
+                            {
+                              key: index,
+                              staticClass:
+                                "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
+                            },
+                            [
+                              _vm._v(
+                                "\n                        #" +
+                                  _vm._s(tag) +
+                                  "\n                    "
+                              )
+                            ]
+                          )
+                        }),
+                        0
                       )
-                    }),
-                    0
+                    ]
                   )
-                ]
-              )
+                : _vm._e()
             ],
             1
           )
@@ -54110,7 +54116,8 @@ __webpack_require__.r(__webpack_exports__);
 var ArticleMixin = {
   data: function data() {
     return {
-      articleId: ""
+      articleId: "",
+      unsetImages: false
     };
   },
   methods: {
@@ -54118,7 +54125,11 @@ var ArticleMixin = {
       var _this = this;
 
       axios.get("api/articles/".concat(this.articleId)).then(function (response) {
-        return _this.article = response.data.article;
+        _this.article = response.data.article;
+
+        if (_this.unsetImages) {
+          _this.article.images = [];
+        }
       })["catch"](function (err) {
         _this.error = err.response.data.message;
         setTimeout(function () {
