@@ -40,7 +40,7 @@ class ArticleController extends Controller
     {
         $user = JWTAuth::parseToken()->authenticate();
 
-        $this->articleRepo->save($request->all(), $user);
+        $this->articleRepo->createOrUpdate($request->all(), $user);
 
         return response()->json(['success' => 'Article created successfully']);
     }
@@ -52,19 +52,6 @@ class ArticleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Article $article)
-    {
-        $article = $article->load(['images','user']);
-
-        return response()->json(compact('article'));
-    }
-
-    /**
-     * .
-     *
-     * @param  \App\Article  $article
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Article $article)
     {
         $article = $article->load(['images','user']);
 

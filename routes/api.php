@@ -28,7 +28,7 @@ Route::group(
     }
 );
 
-Route::resource('articles', 'ArticleController', ['only' => ['index']]);
+Route::get('articles', 'ArticleController@index');
 Route::group(
     ['middleware' => 'api'],
     function () {

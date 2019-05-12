@@ -1900,6 +1900,11 @@ __webpack_require__.r(__webpack_exports__);
       this.fetchArticle();
     }
   },
+  updated: function updated() {
+    if (this.update) {
+      this.convertImageUrlsToBlob();
+    }
+  },
   methods: {
     createArticle: function createArticle() {
       var _this = this;
@@ -1957,8 +1962,16 @@ __webpack_require__.r(__webpack_exports__);
       var filesLength = event['srcElement']['files'].length;
 
       for (var index = 0; index < filesLength; index++) {
-        event['srcElement']['files'][index]['img_path'] = URL.createObjectURL(event.target.files[index]);
+        event['srcElement']['files'][index]['image_path'] = URL.createObjectURL(event.target.files[index]);
         this.article.images.push(event['srcElement']['files'][index]);
+      }
+    },
+    convertImageUrlsToBlob: function convertImageUrlsToBlob() {
+      console.log('Converting Images');
+      var imagesLength = this.article.images.length; // console.log(this.article);
+
+      for (var index = 0; index < imagesLength; index++) {
+        console.log(this.article.images[index]['image_path']);
       }
     }
   }
@@ -38013,7 +38026,7 @@ var render = function() {
                       key: index,
                       staticClass: "h-48 w-48 w-2/5 p-2 mr-2",
                       style: {
-                        "background-image": "url(" + src["img_path"] + ")"
+                        "background-image": "url(" + src["image_path"] + ")"
                       },
                       attrs: { title: "uploaded image" }
                     },

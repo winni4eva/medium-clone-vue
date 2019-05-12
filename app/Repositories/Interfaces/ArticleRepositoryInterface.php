@@ -21,5 +21,5 @@ interface ArticleRepositoryInterface
      *
      * @return void
      */
-    public function save(array $request, User $user): void;
+    public function createOrUpdate(array $request, User $user): void;
 }

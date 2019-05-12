@@ -34,9 +34,10 @@ class ArticleRepository implements ArticleRepositoryInterface
      *
      * @return void
      */
-    public function save(array $request, User $user): void
+    public function createOrUpdate(array $request, User $user): void
     {
-        $article = $this->model->create(
+        $article = $this->model->updateOrCreate(
+            ['id' => $request['id'] ?? 0],
             [
                 'user_id' => $user->id,
                 'title' => $request['title'],

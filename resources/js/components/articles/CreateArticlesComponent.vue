@@ -84,7 +84,7 @@
                             <div
                                 v-for="(src, index) in article.images" v-bind:key="index" 
                                 class="h-48 w-48 w-2/5 p-2 mr-2" 
-                                v-bind:style="{'background-image': 'url('+src['img_path']+')'}"
+                                v-bind:style="{'background-image': 'url('+src['image_path']+')'}"
                                 title="uploaded image">
                                 <a class="float-right text-red-dark hover:bg-white pin-r" @click="removeImage(index)">delete</a>
                             </div>
@@ -133,6 +133,11 @@ export default {
             this.update = true;
             this.articleId = this.$route.params.articleId;
             this.fetchArticle();
+        }
+    },
+    updated() {
+        if (this.update) {
+            this.convertImageUrlsToBlob();
         }
     },
     methods: {
@@ -191,8 +196,16 @@ export default {
         imageSelected(event) {
             const filesLength = event['srcElement']['files'].length;
             for (let index = 0; index < filesLength; index++) {
-                event['srcElement']['files'][index]['img_path'] = URL.createObjectURL(event.target.files[index]);
+                event['srcElement']['files'][index]['image_path'] = URL.createObjectURL(event.target.files[index]);
                 this.article.images.push(event['srcElement']['files'][index]);
+            }
+        },
+        convertImageUrlsToBlob() {
+            console.log('Converting Images');
+            const imagesLength = this.article.images.length;
+            // console.log(this.article);
+            for (let index = 0; index < imagesLength; index++) {
+                console.log(this.article.images[index]['image_path']);
             }
         }
     }
