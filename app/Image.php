@@ -29,7 +29,7 @@ class Image extends Model
                 array_slice($urlSegemnts, $key+1)
             );
         }
-        logger($imageUrl);
+        
         return $imageUrl;
     }
 }

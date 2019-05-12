@@ -12,6 +12,11 @@ let routes = [
         component:require('./components/articles/ViewArticlesComponent').default
     },
     {
+        path:'/show-article/:articleId',
+        name: 'showArticle',
+        component:require('./components/articles/ShowArticleComponent').default
+    },
+    {
         path:'/create-article',
         name: 'createArticle',
         component:require('./components/articles/CreateArticlesComponent').default,

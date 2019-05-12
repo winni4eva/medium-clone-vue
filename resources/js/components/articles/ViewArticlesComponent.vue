@@ -10,18 +10,20 @@
         <div class="w-2/4 bg-white h-full">
             <h3>Latest Articles</h3>
             <div v-for="article in articles" v-bind:key="article.id" class="max-w-sm rounded overflow-hidden shadow-lg w-full mt-6">
-                <img class="w-full" v-bind:src="article['images'][0]['image_path']" alt="article image" @error="setDefaultImage">
-                <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{article['title']}}</div>
-                    <p class="text-grey-darker text-base">
-                        {{article['description']}}
-                    </p>
-                </div>
-                <div class="px-6 py-4">
-                    <span v-for="(tag, index) in article['tags']" v-bind:key="index" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2">
-                        #{{tag}}
-                    </span>
-                </div>
+                <router-link :to="{ name: 'showArticle', params: { articleId: article.id }}">
+                    <img class="w-full" v-bind:src="article['images'][0]['image_path']" alt="article image" @error="setDefaultImage">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">{{article['title']}}</div>
+                        <p class="text-grey-darker text-base">
+                            {{article['description']}}
+                        </p>
+                    </div>
+                    <div class="px-6 py-4">
+                        <span v-for="(tag, index) in article['tags']" v-bind:key="index" class="inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2">
+                            #{{tag}}
+                        </span>
+                    </div>
+                </router-link>
             </div>
         </div>
         <div class="w-1/4 bg-grey-light h-full">
@@ -32,7 +34,7 @@
 
 <script>
 export default {
-    name: "ViewArticle",
+    name: "ViewArticles",
     data() {
         return {
             articles: [],
