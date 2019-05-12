@@ -31,8 +31,6 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    protected $jwt;
-
     /**
      * Create a new controller instance.
      *

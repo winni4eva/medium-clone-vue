@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Http\Requests\ArticleRequest;
+use JWTAuth;
 
 class ArticleController extends Controller
 {
@@ -36,17 +37,10 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        logger($request->all());
+        $user = JWTAuth::parseToken()->authenticate();
 
-        foreach ($request->images as $image) {
-            $filename = $image->store('article_images');
-            logger($filename);
-            // ProductsPhoto::create([
-            //     'product_id' => $product->id,
-            //     'filename' => $filename
-            // ]);
-        }
+        $this->articleRepo->save($request->all(), $user);
 
-        return response()->json(['success'=>'Article created successfully']);
+        return response()->json(['success' => 'Article created successfully']);
     }
 }

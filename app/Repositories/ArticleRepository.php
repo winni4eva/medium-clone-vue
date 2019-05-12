@@ -5,6 +5,8 @@ namespace App\Repositories;
 use App\Repositories\Interfaces\ArticleRepositoryInterface;
 use App\Article;
 use Illuminate\Pagination\Paginator;
+use App\Image;
+use App\User;
 
 class ArticleRepository implements ArticleRepositoryInterface
 {
@@ -25,5 +27,33 @@ class ArticleRepository implements ArticleRepositoryInterface
         return $this->model->with(['images','user'])
             ->orderBy('created_at', 'desc')
             ->simplePaginate($paginate);
+    }
+
+    /**
+     * Save film
+     *
+     * @return void
+     */
+    public function save(array $request, User $user): void
+    {
+        $article = $this->model->create(
+            [
+                'user_id' => $user->id,
+                'title' => $request['title'],
+                'description' => $request['description'],
+                'tags' => $request['tags']
+            ]
+        );
+        
+        $articleImages = [];
+        foreach ($request['images'] as $image) {
+            $image_path = $image->store(
+                'article_images', 
+                ['disk' => 'public_uploads']
+            );
+            $articleImages[] = new Image(compact('image_path'));
+        }
+
+        $article->images()->saveMany($articleImages);
     }
 }
