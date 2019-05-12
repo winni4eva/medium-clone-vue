@@ -1995,12 +1995,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViewArticle",
   data: function data() {
     return {
-      article: {},
-      error: ""
+      article: "",
+      error: "",
+      successMessage: ""
     };
   },
   mounted: function mounted() {
@@ -2011,7 +2023,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("api/articles/".concat(articleId)).then(function (response) {
-        console.log(response); // this.article = response.data.article
+        return _this.article = response.data.article;
       })["catch"](function (err) {
         _this.error = err.response.data.message;
         setTimeout(function () {
@@ -2021,6 +2033,27 @@ __webpack_require__.r(__webpack_exports__);
     },
     setDefaultImage: function setDefaultImage(event) {
       event.target.src = 'article_images/article_default_image.jpg';
+    },
+    deleteArticle: function deleteArticle() {
+      var _this2 = this;
+
+      var answer = confirm("Are you sure you want to delete this article?");
+
+      if (answer) {
+        axios["delete"]("api/articles/".concat(this.article.id)).then(function (response) {
+          _this2.successMessage = response.data.article;
+          setTimeout(function () {
+            _this2.successMessage = "";
+
+            _this2.$router.push('/articles');
+          }, 3000);
+        })["catch"](function (err) {
+          _this2.error = err.response.data.message;
+          setTimeout(function () {
+            _this2.error = "";
+          }, 3000);
+        });
+      }
     }
   } //
 
@@ -38032,6 +38065,22 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex mb-4 flex-wrap my-6" }, [
+    this.successMessage
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "bg-green-lightest border border-green-dark text-blue-dark px-4 py-3 w-full rounded relative",
+            attrs: { role: "alert" }
+          },
+          [
+            _c("span", { staticClass: "block sm:inline" }, [
+              _vm._v(_vm._s(this.successMessage))
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
     this.error
       ? _c(
           "div",
@@ -38050,25 +38099,104 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
     _vm._v(" "),
-    _vm._m(0),
+    _c("div", { staticClass: "w-2/4 bg-white h-full" }, [
+      this.article
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "max-w-sm rounded overflow-hidden shadow-lg w-full mt-6"
+            },
+            [
+              _c("img", {
+                staticClass: "w-full",
+                attrs: {
+                  src: this.article["images"][0]["image_path"],
+                  alt: "article image"
+                },
+                on: { error: _vm.setDefaultImage }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "px-6 py-4" }, [
+                _c("div", { staticClass: "font-bold text-xl mb-2" }, [
+                  _vm._v(_vm._s(this.article["title"]))
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "text-grey-darker text-base" }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(this.article["description"]) +
+                      "\n                "
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "px-6 py-4" },
+                _vm._l(this.article["tags"], function(tag, index) {
+                  return _c(
+                    "span",
+                    {
+                      key: index,
+                      staticClass:
+                        "inline-block bg-grey-lighter rounded-full px-3 py-1 text-sm font-semibold text-grey-darker mr-2"
+                    },
+                    [
+                      _vm._v(
+                        "\n                    #" +
+                          _vm._s(tag) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _c("div", [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2 ml-2"
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Update Article\n                "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2",
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteArticle()
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n                    Delete Article\n                "
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
+        : _vm._e()
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "w-1/4 bg-grey-light h-full" }),
     _vm._v(" "),
     _c("div", { staticClass: "editable" })
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w-2/4 bg-white h-full" }, [
-      _c("div", {
-        staticClass: "max-w-sm rounded overflow-hidden shadow-lg w-full mt-6"
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
