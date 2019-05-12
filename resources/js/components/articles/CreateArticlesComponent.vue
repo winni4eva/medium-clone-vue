@@ -1,8 +1,14 @@
 <template>
     <div class="flex mb-4 flex-wrap my-6">
-        <div v-if="this.error" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
-            <span class="block sm:inline">{{this.error}}</span>
+        <div v-if="this.successMessage" class="bg-red-lightest border border-green-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
+            <span class="block sm:inline">{{this.successMessage}}</span>
         </div>
+        <div v-if="this.error && this.error.message" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
+            <span class="block sm:inline">{{this.error.message}}</span>
+        </div>
+        <!-- <div v-if="this.erroMessage" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
+            <span class="block sm:inline">{{this.erroMessage}}</span>
+        </div> -->
         <div class="w-1/4 bg-grey-light h-full">
         </div>
         <div class="w-2/4 h-full">
@@ -19,7 +25,11 @@
                             id="title" 
                             type="text"
                             placeholder="My Best Programming Book Of All Time">
-
+                        <p 
+                            class="text-red-dark text-xs italic" 
+                            v-if="this.error && this.error.errors && this.error.errors.title && Array.isArray(this.error.errors.title)">
+                            {{this.error.errors.title[0]}}
+                        </p>
                     </div>
 
                     <div class="w-full px-3">
@@ -27,7 +37,11 @@
                             Article
                         </label>
                         <textarea v-model="article.description" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey h-64" id="description"/>
-
+                        <p 
+                            class="text-red-dark text-xs italic" 
+                            v-if="this.error && this.error.errors && this.error.errors.description && Array.isArray(this.error.errors.description)">
+                            {{this.error.errors.description[0]}}
+                        </p>
                     </div>
                     <div class="flex items-center border-b border-b-2 border-teal py-2 w-full px-3">
                         <input 
@@ -35,10 +49,14 @@
                             v-on:keyup.space="addTag($event)" 
                             class="appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none" 
                             type="text" 
-                            placeholder="tags" 
+                            placeholder="Enter a tag and hit the space button to save" 
                             aria-label="tag">
 
-                        <p class="text-grey-dark text-xs italic">Enter tag and hit space button to save</p>
+                        <p 
+                            class="text-red-dark text-xs italic"
+                            v-if="this.error && this.error.errors && this.error.errors.tags && Array.isArray(this.error.errors.tags)">
+                            {{this.error.errors.tags[0]}}
+                        </p>
                     </div>
                     <div v-for="(tag, index) in article['tags']" v-bind:key="index" class="my-6">
                         <a class="float-right hover:bg-blue-light" @click="removeTag(index)">x</a>
@@ -58,6 +76,11 @@
                             id="images" 
                             type="file"
                             multiple>
+                        <p 
+                            class="text-red-dark text-xs italic" 
+                            v-if="this.error && this.error.errors && this.error.errors.images && Array.isArray(this.error.errors.images)">
+                            {{this.error.errors.images[0]}}
+                        </p>
                         
                         <div class="flex flex-wrap bg-white">
                             <div
@@ -97,8 +120,10 @@ export default {
                 tags: [],
                 images: []
             },
+            successMessage: "",
             tag: "",
-            error: ""
+            error: "",
+            erroMessage: "",
         }
     },
 
@@ -124,9 +149,12 @@ export default {
             };
 
             axios.post('api/articles', formData, headers)
-                .then(response => console.log(response))
+                .then(response => {
+                    this.error = "";
+                    this.successMessage = response.success;
+                })
                 .catch(err => {
-                    this.error = err.response.data.message;
+                    this.error = err.response.data;
 
                     if(err.response.status === 401) {
                         this.$router.push('/login');

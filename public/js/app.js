@@ -1850,6 +1850,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateArticle",
@@ -1861,8 +1884,10 @@ __webpack_require__.r(__webpack_exports__);
         tags: [],
         images: []
       },
+      successMessage: "",
       tag: "",
-      error: ""
+      error: "",
+      erroMessage: ""
     };
   },
   methods: {
@@ -1886,9 +1911,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       axios.post('api/articles', formData, headers).then(function (response) {
-        return console.log(response);
+        _this.error = "";
+        _this.successMessage = response.success;
       })["catch"](function (err) {
-        _this.error = err.response.data.message;
+        _this.error = err.response.data;
 
         if (err.response.status === 401) {
           _this.$router.push('/login');
@@ -37554,7 +37580,23 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex mb-4 flex-wrap my-6" }, [
-    this.error
+    this.successMessage
+      ? _c(
+          "div",
+          {
+            staticClass:
+              "bg-red-lightest border border-green-light text-red-dark px-4 py-3 w-full rounded relative",
+            attrs: { role: "alert" }
+          },
+          [
+            _c("span", { staticClass: "block sm:inline" }, [
+              _vm._v(_vm._s(this.successMessage))
+            ])
+          ]
+        )
+      : _vm._e(),
+    _vm._v(" "),
+    this.error && this.error.message
       ? _c(
           "div",
           {
@@ -37564,7 +37606,7 @@ var render = function() {
           },
           [
             _c("span", { staticClass: "block sm:inline" }, [
-              _vm._v(_vm._s(this.error))
+              _vm._v(_vm._s(this.error.message))
             ])
           ]
         )
@@ -37618,7 +37660,20 @@ var render = function() {
                     _vm.$set(_vm.article, "title", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              this.error &&
+              this.error.errors &&
+              this.error.errors.title &&
+              Array.isArray(this.error.errors.title)
+                ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(this.error.errors.title[0]) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "w-full px-3" }, [
@@ -37657,7 +37712,20 @@ var render = function() {
                     _vm.$set(_vm.article, "description", $event.target.value)
                   }
                 }
-              })
+              }),
+              _vm._v(" "),
+              this.error &&
+              this.error.errors &&
+              this.error.errors.description &&
+              Array.isArray(this.error.errors.description)
+                ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(this.error.errors.description[0]) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
             _c(
@@ -37680,7 +37748,7 @@ var render = function() {
                     "appearance-none bg-transparent border-none w-full text-grey-darker mr-3 py-1 px-2 leading-tight focus:outline-none",
                   attrs: {
                     type: "text",
-                    placeholder: "tags",
+                    placeholder: "Enter a tag and hit the space button to save",
                     "aria-label": "tag"
                   },
                   domProps: { value: _vm.tag },
@@ -37706,9 +37774,18 @@ var render = function() {
                   }
                 }),
                 _vm._v(" "),
-                _c("p", { staticClass: "text-grey-dark text-xs italic" }, [
-                  _vm._v("Enter tag and hit space button to save")
-                ])
+                this.error &&
+                this.error.errors &&
+                this.error.errors.tags &&
+                Array.isArray(this.error.errors.tags)
+                  ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(this.error.errors.tags[0]) +
+                          "\n                    "
+                      )
+                    ])
+                  : _vm._e()
               ]
             ),
             _vm._v(" "),
@@ -37765,6 +37842,19 @@ var render = function() {
                 attrs: { id: "images", type: "file", multiple: "" },
                 on: { change: _vm.imageSelected }
               }),
+              _vm._v(" "),
+              this.error &&
+              this.error.errors &&
+              this.error.errors.images &&
+              Array.isArray(this.error.errors.images)
+                ? _c("p", { staticClass: "text-red-dark text-xs italic" }, [
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(this.error.errors.images[0]) +
+                        "\n                    "
+                    )
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c(
                 "div",
