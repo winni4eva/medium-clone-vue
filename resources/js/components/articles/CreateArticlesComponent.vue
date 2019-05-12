@@ -1,6 +1,6 @@
 <template>
     <div class="flex mb-4 flex-wrap my-6">
-        <div v-if="this.successMessage" class="bg-red-lightest border border-red-dark text-red-dark px-4 py-3 w-full rounded relative" role="alert">
+        <div v-if="this.successMessage" class="bg-green-lightest border border-green-dark text-blue-dark px-4 py-3 w-full rounded relative" role="alert">
             <span class="block sm:inline">{{this.successMessage}}</span>
         </div>
         <div v-if="this.error && this.error.message" class="bg-red-lightest border border-red-light text-red-dark px-4 py-3 w-full rounded relative" role="alert">
@@ -86,6 +86,7 @@
                                 class="h-48 w-48 w-2/5 p-2 mr-2" 
                                 v-bind:style="{'background-image': 'url('+src['img_path']+')'}"
                                 title="uploaded image">
+                                <a class="float-right text-red-dark hover:bg-white pin-r" @click="removeImage(index)">delete</a>
                             </div>
                         </div>
 
@@ -149,7 +150,11 @@ export default {
             axios.post('api/articles', formData, headers)
                 .then(response => {
                     this.error = "";
-                    this.successMessage = response.success;
+                    this.successMessage = response.data.success;
+                    setTimeout(() => {
+                        this.successMessage = "";
+                        this.$router.push('/articles');
+                    }, 3000);
                 })
                 .catch(err => {
                     this.error = err.response.data;
@@ -162,7 +167,7 @@ export default {
                     setTimeout(() => {
                         this.error = "";
                     }, 3000);
-                })
+                });
         },
         addTag(event) {
             this.article['tags'].push(event.srcElement.value);
@@ -170,6 +175,9 @@ export default {
         },
         removeTag(index) {
             this.article.tags.splice(index, 1);
+        },
+        removeImage(index) {
+            this.article.images.splice(index, 1);
         },
         imageSelected(event) {
             const filesLength = event['srcElement']['files'].length;

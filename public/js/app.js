@@ -1871,6 +1871,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "CreateArticle",
@@ -1910,7 +1911,12 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('api/articles', formData, headers).then(function (response) {
         _this.error = "";
-        _this.successMessage = response.success;
+        _this.successMessage = response.data.success;
+        setTimeout(function () {
+          _this.successMessage = "";
+
+          _this.$router.push('/articles');
+        }, 3000);
       })["catch"](function (err) {
         _this.error = err.response.data;
 
@@ -1932,6 +1938,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     removeTag: function removeTag(index) {
       this.article.tags.splice(index, 1);
+    },
+    removeImage: function removeImage(index) {
+      this.article.images.splice(index, 1);
     },
     imageSelected: function imageSelected(event) {
       var filesLength = event['srcElement']['files'].length;
@@ -37593,7 +37602,7 @@ var render = function() {
           "div",
           {
             staticClass:
-              "bg-red-lightest border border-red-dark text-red-dark px-4 py-3 w-full rounded relative",
+              "bg-green-lightest border border-green-dark text-blue-dark px-4 py-3 w-full rounded relative",
             attrs: { role: "alert" }
           },
           [
@@ -37868,14 +37877,32 @@ var render = function() {
                 "div",
                 { staticClass: "flex flex-wrap bg-white" },
                 _vm._l(_vm.article.images, function(src, index) {
-                  return _c("div", {
-                    key: index,
-                    staticClass: "h-48 w-48 w-2/5 p-2 mr-2",
-                    style: {
-                      "background-image": "url(" + src["img_path"] + ")"
+                  return _c(
+                    "div",
+                    {
+                      key: index,
+                      staticClass: "h-48 w-48 w-2/5 p-2 mr-2",
+                      style: {
+                        "background-image": "url(" + src["img_path"] + ")"
+                      },
+                      attrs: { title: "uploaded image" }
                     },
-                    attrs: { title: "uploaded image" }
-                  })
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "float-right text-red-dark hover:bg-white pin-r",
+                          on: {
+                            click: function($event) {
+                              return _vm.removeImage(index)
+                            }
+                          }
+                        },
+                        [_vm._v("delete")]
+                      )
+                    ]
+                  )
                 }),
                 0
               )
@@ -53829,9 +53856,9 @@ router.beforeEach(function (to, from, next) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/adam/winnipass-blog/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/adam/winnipass-blog/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /home/adam/winnipass-blog/resources/css/main.css */"./resources/css/main.css");
+__webpack_require__(/*! /var/www/winnipass-medium-blog/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /var/www/winnipass-medium-blog/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /var/www/winnipass-medium-blog/resources/css/main.css */"./resources/css/main.css");
 
 
 /***/ })
