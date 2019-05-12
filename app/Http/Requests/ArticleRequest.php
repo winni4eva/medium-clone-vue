@@ -26,9 +26,23 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|string',
             'description' => 'required|string',
-            'tags' => 'required|json',
-            'images' => 'required|json',
-            'images.*' => 'mimes:jpeg,jpg,bmp,png',
+            'tags' => 'required|array',
+            'images' => 'required|array',
+            'images.*' => 'image|mimes:jpeg,jpg,bmp,png|max:5000',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge(
+            [
+                'tags' => json_decode($this->tags, true),
+            ]
+        );
     }
 }

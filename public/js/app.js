@@ -1874,13 +1874,11 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('description', this.article.description);
       formData.append('tags', JSON.stringify(this.article.tags));
       var imagesLength = this.article.images.length;
-      var images = [];
 
       for (var index = 0; index < imagesLength; index++) {
-        images.push(this.article.images[index]);
+        formData.append("images[]", this.article.images[index], this.article.images[index]['name']);
       }
 
-      formData.append('images', JSON.stringify(images));
       var headers = {
         headers: {
           "Accept": "application/json",

@@ -37,6 +37,16 @@ class ArticleController extends Controller
     public function store(ArticleRequest $request)
     {
         logger($request->all());
+
+        foreach ($request->images as $image) {
+            $filename = $image->store('article_images');
+            logger($filename);
+            // ProductsPhoto::create([
+            //     'product_id' => $product->id,
+            //     'filename' => $filename
+            // ]);
+        }
+
         return response()->json(['success'=>'Article created successfully']);
     }
 }

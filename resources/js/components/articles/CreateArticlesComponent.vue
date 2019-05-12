@@ -111,12 +111,11 @@ export default {
             formData.append('tags', JSON.stringify(this.article.tags));
 
             const imagesLength = this.article.images.length;
-            let images = [];
+        
             for (let index = 0; index < imagesLength; index++) {
-                images.push(this.article.images[index]);
+                formData.append("images[]", this.article.images[index], this.article.images[index]['name'])
             }
-            
-            formData.append('images', JSON.stringify(images));
+
             const headers = { 
                 headers: {
                     "Accept": "application/json",
@@ -150,7 +149,7 @@ export default {
             const filesLength = event['srcElement']['files'].length;
             for (let index = 0; index < filesLength; index++) {
                 event['srcElement']['files'][index]['img_path'] = URL.createObjectURL(event.target.files[index]);
-                this.article.images.push(event['srcElement']['files'][index])
+                this.article.images.push(event['srcElement']['files'][index]);
             }
         }
     }
