@@ -24,8 +24,8 @@
                         #{{tag}}
                     </span>
                 </div>
-                <div>
-                    <button class="bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2 ml-2">
+                <div v-if="this.token">
+                    <button @click="updateArticle()" class="bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2 ml-2">
                         Update Article
                     </button>
                     <button @click="deleteArticle()" class="bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2">
@@ -41,16 +41,23 @@
 </template>
 
 <script>
+import { serverBus } from '../../app';
+
 export default {
     name: "ViewArticle",
     data() {
         return {
             article: "",
             error: "",
-            successMessage: ""
+            successMessage: "",
+            token: "",
         }
     },
     mounted() {
+        this.token = this.getToken();
+        serverBus.$on('tokenChanged', (newTokenValue) => {
+            this.token = newTokenValue;
+        });
         this.fetchArticle(this.$route.params.articleId);
     },
 
@@ -69,11 +76,11 @@ export default {
             event.target.src = 'article_images/article_default_image.jpg';
         },
         deleteArticle() {
-            const answer = confirm("Are you sure you want to delete this article?");
+            const answer = confirm("Do you want to delete this article?");
             if (answer) {
                 axios.delete(`api/articles/${this.article.id}`)
                 .then(response => {
-                    this.successMessage = response.data.article
+                    this.successMessage = response.data.success;
                     setTimeout(() => {
                         this.successMessage = "";
                         this.$router.push('/articles');
@@ -83,6 +90,13 @@ export default {
                     this.error = err.response.data.message;
                     setTimeout(() => {this.error = ""}, 3000);
                 });
+            }
+        },
+        updateArticle() {
+            const answer = confirm("Do you want to edit this article?");
+
+            if (answer) {
+                this.$router.push(`/create-article/${this.article.id}`);
             }
         }
     }

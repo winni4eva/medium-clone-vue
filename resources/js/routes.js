@@ -17,7 +17,7 @@ let routes = [
         component:require('./components/articles/ShowArticleComponent').default
     },
     {
-        path:'/create-article',
+        path:'/create-article/:articleId?',
         name: 'createArticle',
         component:require('./components/articles/CreateArticlesComponent').default,
         meta: {

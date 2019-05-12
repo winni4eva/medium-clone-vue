@@ -125,7 +125,9 @@ export default {
             erroMessage: "",
         }
     },
-
+    mounted() {
+        console.log(this.$route.params.articleId);
+    },
     methods: {
         createArticle() {
             let formData = new FormData()

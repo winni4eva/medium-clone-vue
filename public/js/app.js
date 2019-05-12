@@ -1889,6 +1889,9 @@ __webpack_require__.r(__webpack_exports__);
       erroMessage: ""
     };
   },
+  mounted: function mounted() {
+    console.log(this.$route.params.articleId);
+  },
   methods: {
     createArticle: function createArticle() {
       var _this = this;
@@ -1964,6 +1967,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../app */ "./resources/js/app.js");
 //
 //
 //
@@ -2006,28 +2010,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ViewArticle",
   data: function data() {
     return {
       article: "",
       error: "",
-      successMessage: ""
+      successMessage: "",
+      token: ""
     };
   },
   mounted: function mounted() {
+    var _this = this;
+
+    this.token = this.getToken();
+    _app__WEBPACK_IMPORTED_MODULE_0__["serverBus"].$on('tokenChanged', function (newTokenValue) {
+      _this.token = newTokenValue;
+    });
     this.fetchArticle(this.$route.params.articleId);
   },
   methods: {
     fetchArticle: function fetchArticle(articleId) {
-      var _this = this;
+      var _this2 = this;
 
       axios.get("api/articles/".concat(articleId)).then(function (response) {
-        return _this.article = response.data.article;
+        return _this2.article = response.data.article;
       })["catch"](function (err) {
-        _this.error = err.response.data.message;
+        _this2.error = err.response.data.message;
         setTimeout(function () {
-          _this.error = "";
+          _this2.error = "";
         }, 3000);
       });
     },
@@ -2035,24 +2047,31 @@ __webpack_require__.r(__webpack_exports__);
       event.target.src = 'article_images/article_default_image.jpg';
     },
     deleteArticle: function deleteArticle() {
-      var _this2 = this;
+      var _this3 = this;
 
-      var answer = confirm("Are you sure you want to delete this article?");
+      var answer = confirm("Do you want to delete this article?");
 
       if (answer) {
         axios["delete"]("api/articles/".concat(this.article.id)).then(function (response) {
-          _this2.successMessage = response.data.article;
+          _this3.successMessage = response.data.success;
           setTimeout(function () {
-            _this2.successMessage = "";
+            _this3.successMessage = "";
 
-            _this2.$router.push('/articles');
+            _this3.$router.push('/articles');
           }, 3000);
         })["catch"](function (err) {
-          _this2.error = err.response.data.message;
+          _this3.error = err.response.data.message;
           setTimeout(function () {
-            _this2.error = "";
+            _this3.error = "";
           }, 3000);
         });
+      }
+    },
+    updateArticle: function updateArticle() {
+      var answer = confirm("Do you want to edit this article?");
+
+      if (answer) {
+        this.$router.push("/create-article/".concat(this.article.id));
       }
     }
   } //
@@ -38154,38 +38173,45 @@ var render = function() {
                 0
               ),
               _vm._v(" "),
-              _c("div", [
-                _c(
-                  "button",
-                  {
-                    staticClass:
-                      "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2 ml-2"
-                  },
-                  [
-                    _vm._v(
-                      "\n                    Update Article\n                "
+              this.token
+                ? _c("div", [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2 ml-2",
+                        on: {
+                          click: function($event) {
+                            return _vm.updateArticle()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Update Article\n                "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2",
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteArticle()
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                    Delete Article\n                "
+                        )
+                      ]
                     )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass:
-                      "bg-white hover:bg-grey-lightest text-grey-darkest font-semibold py-2 px-4 border border-grey-light rounded shadow my-2",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteArticle()
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                    Delete Article\n                "
-                    )
-                  ]
-                )
-              ])
+                  ])
+                : _vm._e()
             ]
           )
         : _vm._e()
@@ -54151,7 +54177,7 @@ var routes = [{
   name: 'showArticle',
   component: __webpack_require__(/*! ./components/articles/ShowArticleComponent */ "./resources/js/components/articles/ShowArticleComponent.vue")["default"]
 }, {
-  path: '/create-article',
+  path: '/create-article/:articleId?',
   name: 'createArticle',
   component: __webpack_require__(/*! ./components/articles/CreateArticlesComponent */ "./resources/js/components/articles/CreateArticlesComponent.vue")["default"],
   meta: {

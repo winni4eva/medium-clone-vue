@@ -57,4 +57,30 @@ class ArticleController extends Controller
 
         return response()->json(compact('article'));
     }
+
+    /**
+     * .
+     *
+     * @param  \App\Article  $article
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Article $article)
+    {
+        $article = $article->load(['images','user']);
+
+        return response()->json(compact('article'));
+    }
+
+    /**
+     * .
+     *
+     * @param  \App\Article  $article
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Article $article)
+    {
+        $article->delete();
+
+        return response()->json(['success' => 'Article removed successfully']);
+    }
 }
