@@ -22,7 +22,7 @@ class ArticleRepository implements ArticleRepositoryInterface
      *
      * @return mixed
      */
-    public function get($paginate = 10): Paginator
+    public function get($paginate = 100): Paginator
     {
         return $this->model->with(['images','user'])
             ->orderBy('created_at', 'desc')
@@ -45,7 +45,7 @@ class ArticleRepository implements ArticleRepositoryInterface
                 'tags' => $request['tags']
             ]
         );
-        if ($request['id'] > 0) {
+        if ($request['id'] ?? 0 > 0) {
             $article->images()->delete();
         }
         $articleImages = [];

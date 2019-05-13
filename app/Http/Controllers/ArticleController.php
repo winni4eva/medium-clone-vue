@@ -26,8 +26,8 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = $this->articleRepo->get();
-
-        return response()->json(compact('articles'));
+        
+        return response()->json(compact('articles'), 200);
     }
 
     /**
@@ -44,7 +44,7 @@ class ArticleController extends Controller
         
         $action = $request->get('id') ? 'updated' : 'created';
 
-        return response()->json(['success' => "Article {$action} successfully"]);
+        return response()->json(['success' => "Article {$action} successfully"], 201);
     }
 
     /**
@@ -57,7 +57,7 @@ class ArticleController extends Controller
     {
         $article = $article->load(['images','user']);
 
-        return response()->json(compact('article'));
+        return response()->json(compact('article'), 200);
     }
 
     /**
@@ -70,6 +70,6 @@ class ArticleController extends Controller
     {
         $article->delete();
 
-        return response()->json(['success' => 'Article removed successfully']);
+        return response()->json(['success' => 'Article removed successfully'], 201);
     }
 }
