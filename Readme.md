@@ -14,4 +14,7 @@
 2. default admin password [password] 
 
 ### Run Test
-composer test
+1. copy .env.example to .env.testing
+2. create test mysql db eg blog-test
+3. epdate .env.testing db credentials
+4. run command [composer test]
