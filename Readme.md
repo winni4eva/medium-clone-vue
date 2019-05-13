@@ -1,5 +1,5 @@
 ### Project Setup
-1. Clone repositry
+1. Clone repository
 2. cd into project root and run command [composer install]
 3. create mysql database eg blog
 4. copy .env.example and rename .env
