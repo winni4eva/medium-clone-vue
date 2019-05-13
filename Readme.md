@@ -5,9 +5,10 @@
 4. copy .env.example and rename .env
 4. update database credentials in .env
 5. run command [php artisan key:generate]
-6. run command [php artisan migrate]
-7. run command [php artisan db:seed]
-8. serve app with command [php artisan serve]
+6. run command [php artisan jwt:secret]
+7. run command [php artisan migrate]
+8. run command [php artisan db:seed]
+9. serve app with command [php artisan serve]
 
 ### Admin User
 1. default admin email [admin@medium.com]
